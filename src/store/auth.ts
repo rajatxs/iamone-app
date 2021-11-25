@@ -14,6 +14,8 @@ const authModule: Module<AuthState, AppStore> = {
       }
    },
    actions: {
+
+      /** Generate new auth token */
       async generateAuthToken({ commit }, payload: AuthPayload) {
          const response = await api.post<ApiResponse<AuthSuccessResponse>>('/user/token', payload)
          let tokens: AuthSuccessResponse
@@ -28,6 +30,8 @@ const authModule: Module<AuthState, AppStore> = {
             this.commit('ui/SHOW_AUTH_MODAL', false)
          }
       },
+
+      /** Register new account */
       async createAccount({ commit }, payload: Required<AuthPayload>) {
          const response = await api.post('/user/register', payload)
          let tokens: AuthSuccessResponse
@@ -42,6 +46,8 @@ const authModule: Module<AuthState, AppStore> = {
             this.commit('ui/SHOW_AUTH_MODAL', false)
          }
       },
+
+      /** Sign in using auth token from localStorage */
       async signInFromSavedTokens({ commit }) {
          const accessTokens = localStorage.getItem('ACCESS_TOKEN') || '',
                refreshToken = localStorage.getItem('REFRESH_TOKEN') || ''
@@ -53,6 +59,8 @@ const authModule: Module<AuthState, AppStore> = {
             this.commit('ui/SHOW_AUTH_MODAL', true)
          }
       },
+
+      /** Clear session */
       logout({ commit }) {
          localStorage.removeItem('ACCESS_TOKEN')
          localStorage.removeItem('REFRESH_TOKEN')

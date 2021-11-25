@@ -1,9 +1,9 @@
 import * as VueRouter from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
-import ProfileController from './views/ProfileController.vue'
+import ProfileController from './views/ProfileController/ProfileController.vue'
 import DesignController from './views/DesignController.vue'
 import AnalyticsController from './views/AnalyticsController.vue'
-import SettingsController from './views/SettingsController.vue'
+import SettingsController from './views/SettingsController/SettingsController.vue'
 
 const routes: RouteRecordRaw[] = [
    {

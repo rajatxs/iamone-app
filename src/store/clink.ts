@@ -87,6 +87,12 @@ const clinkModule: Module<ClinkState, AppStore> = {
    
             commit('SET_DATA', links)
          }
+      },
+
+      /** Clear links from state */
+      clearClinks({ commit }) {
+         commit('SET_LOAD_STATE', false)
+         commit('SET_DATA', [])
       }
    },
 
