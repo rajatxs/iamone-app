@@ -1,3 +1,9 @@
+<template>
+   <div :class="inputFieldClasses">
+      <slot></slot>
+   </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 
@@ -25,12 +31,6 @@ export default defineComponent({
    }
 })
 </script>
-
-<template>
-   <div :class="inputFieldClasses">
-      <slot></slot>
-   </div>
-</template>
 
 <style scoped lang="scss">
 .app-input-field {

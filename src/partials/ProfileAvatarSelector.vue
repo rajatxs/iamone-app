@@ -26,7 +26,10 @@ import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
 import { toUrl } from '../utils/common'
 
-const { mapActions: mapUserActions, mapGetters: mapUserGetters } = createNamespacedHelpers('user')
+const { 
+   mapActions: mapUserActions, 
+   mapGetters: mapUserGetters 
+} = createNamespacedHelpers('user')
 
 export default defineComponent({
    name: 'ProfileAvatarSelector',

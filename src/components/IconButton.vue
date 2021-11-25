@@ -1,3 +1,9 @@
+<template>
+   <button :class="iconButtonClasses">
+      <component :is="svgIcon"></component>
+   </button>
+</template>
+
 <script lang="ts">
 import { defineComponent, defineAsyncComponent } from 'vue' 
 
@@ -21,12 +27,6 @@ export default defineComponent({
    }
 })
 </script>
-
-<template>
-   <button :class="iconButtonClasses">
-      <component :is="svgIcon"></component>
-   </button>
-</template>
 
 <style scoped lang="scss">
 .app-icon-button {

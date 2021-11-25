@@ -1,3 +1,12 @@
+<template>
+   <div class="app-toast-container">
+      <div :class="toastClasses">
+         <span class="message">{{ text }}</span>
+         <button v-if="action" class="action">Done</button>
+      </div>
+   </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 
@@ -34,16 +43,6 @@ export default defineComponent({
    }
 })
 </script>
-
-
-<template>
-   <div class="app-toast-container">
-      <div :class="toastClasses">
-         <span class="message">{{ text }}</span>
-         <button v-if="action" class="action">Done</button>
-      </div>
-   </div>
-</template>
 
 <style lang="scss" scoped>
 @import "../scss/const";

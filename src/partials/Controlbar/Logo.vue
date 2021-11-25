@@ -8,7 +8,7 @@ defineProps<{ size?: number }>()
    <div class="app-logo" aria-label="logo">
       <img 
          class="app-logo-image"
-         src="../assets/logo.svg"
+         src="../../assets/logo.svg"
          :width="size"
          :height="size"
          alt="im1" />

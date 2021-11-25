@@ -55,8 +55,8 @@ const controlSectorTabs: ControlSectorTab[] = [
 </script>
 
 <style lang="scss" scoped>
-@import "../scss/const";
-@import "../scss/scroll";
+@import "../../scss/const";
+@import "../../scss/scroll";
 
 .app-controlbar {
    width: $controlbar-area-width;
@@ -64,14 +64,6 @@ const controlSectorTabs: ControlSectorTab[] = [
    background-color: #FCFCFC;
    overflow-x: hidden;
    overflow-y: hidden;
-
-   .controlbar-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-left: 28pt;
-      margin-right: 28pt;
-   }
 
    .control-sector-tab {
       display: flex;
@@ -120,6 +112,14 @@ const controlSectorTabs: ControlSectorTab[] = [
       overflow-y: auto;
    }
 }
+
+.controlbar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-left: 28pt;
+      margin-right: 28pt;
+   }
 
 @media screen and (max-width: 1060px) {
    .app-controlbar {

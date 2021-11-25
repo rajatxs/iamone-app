@@ -55,18 +55,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { createNamespacedHelpers } from "vuex";
-import ProfileAvatarSelector from "../ProfileAvatarSelector.vue";
-import toast from "../../utils/toast";
+import { defineComponent } from "vue"
+import { createNamespacedHelpers } from "vuex"
+import ProfileAvatarSelector from "../../partials/ProfileAvatarSelector.vue"
+import toast from "../../utils/toast"
 
-const { mapGetters: mapUserGetters, mapActions: mapUserActions } =
-   createNamespacedHelpers("user");
+const { 
+   mapGetters: mapUserGetters, 
+   mapActions: mapUserActions 
+} = createNamespacedHelpers("user")
 
 interface ProfileDataPayload {
-   fullname?: string;
-   company?: string;
-   bio?: string;
+   fullname?: string
+   company?: string
+   bio?: string
 }
 
 export default defineComponent({
@@ -81,7 +83,7 @@ export default defineComponent({
          bio: "",
 
          inProgress: false,
-      };
+      }
    },
    computed: {
       ...mapUserGetters(["user", "loaded"]),
@@ -91,35 +93,35 @@ export default defineComponent({
             fullname: this.fullname,
             company: this.company,
             bio: this.bio,
-         };
+         }
       },
    },
    mounted() {
-      const { user } = this;
+      const { user } = this
 
-      this.fullname = user.fullname;
-      this.company = user.company;
-      this.bio = user.bio;
+      this.fullname = user.fullname
+      this.company = user.company
+      this.bio = user.bio
    },
    methods: {
       ...mapUserActions(["updateUserDetails"]),
 
       async saveUserData() {
-         const { payload } = this;
+         const { payload } = this
 
-         this.inProgress = true;
+         this.inProgress = true
 
          try {
-            await this.updateUserDetails(payload);
-            toast.success("Profile updated");
+            await this.updateUserDetails(payload)
+            toast.success("Profile updated")
          } catch (error) {
-            console.log("Failed to update user profile", error);
+            console.log("Failed to update user profile", error)
          }
 
-         this.inProgress = false;
+         this.inProgress = false
       },
    },
-});
+})
 </script>
 
 <style scoped lang="scss">

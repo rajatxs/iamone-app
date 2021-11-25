@@ -1,6 +1,5 @@
 <template>
    <div class="app-blind-area">
-      <transition name="slide-fade"></transition>
       <AuthModal v-if="viewAuthModal" />
 
       <QRCodeModal 

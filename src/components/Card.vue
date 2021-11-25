@@ -1,29 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-   name: 'AppCard',
-   props: {
-      title: {
-         type: String,
-         required: false
-      },
-      gap: {
-         type: String,
-         default: 'medium'
-      }
-   },
-   computed: {
-      bodyClasses() {
-         const list = ['card-body']
-         list.push('gap__' + this.gap)
-
-         return list
-      }
-   }
-})
-</script>
-
 <template>
    <div class="app-card">
 
@@ -49,6 +23,32 @@ export default defineComponent({
       </div>
    </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+   name: 'AppCard',
+   props: {
+      title: {
+         type: String,
+         required: false
+      },
+      gap: {
+         type: String,
+         default: 'medium'
+      }
+   },
+   computed: {
+      bodyClasses() {
+         const list = ['card-body']
+         list.push('gap__' + this.gap)
+
+         return list
+      }
+   }
+})
+</script>
 
 <style scoped lang="scss">
 .app-card {

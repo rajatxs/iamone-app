@@ -33,11 +33,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
-import PlusIcon from '../Icons/plus.vue'
-import EditSocialLinkModal from '../EditSocialLinkModal.vue'
-import toast from '../../utils/toast'
+import PlusIcon from '@/components/Icons/plus.vue'
+import EditSocialLinkModal from './Modals/EditSocialLinkModal.vue'
+import toast from '@/utils/toast'
 
-const { mapGetters: mapSocialRefGetters, mapActions: mapSocialRefActions } = createNamespacedHelpers('socialRef')
+const { 
+   mapGetters: mapSocialRefGetters, 
+   mapActions: mapSocialRefActions 
+} = createNamespacedHelpers('socialRef')
 
 export default defineComponent({
    name: 'SocialLinkCard',

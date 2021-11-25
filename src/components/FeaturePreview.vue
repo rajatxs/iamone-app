@@ -1,9 +1,3 @@
-<script setup lang="ts">
-import { defineProps } from 'vue'
-
-defineProps<{ icon: string, title: string, desc?: string }>()
-</script>
-
 <template>
    <div class="feature-preview">
       <div class="feature-icon">
@@ -19,6 +13,12 @@ defineProps<{ icon: string, title: string, desc?: string }>()
       </div>
    </div>
 </template>
+
+<script setup lang="ts">
+import { defineProps } from 'vue'
+
+defineProps<{ icon: string, title: string, desc?: string }>()
+</script>
 
 <style lang="scss">
 .feature-preview {

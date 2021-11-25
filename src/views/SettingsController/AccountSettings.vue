@@ -53,7 +53,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
-import toast from '../../utils/toast'
+import toast from '@/utils/toast'
 
 interface InputValueContext {
    text: string,

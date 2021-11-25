@@ -18,9 +18,9 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
-import { toRemoteUrl } from '../utils/common'
-import toast from '../utils/toast'
-import ClipboardIcon from './Icons/clipboard.vue'
+import { toRemoteUrl } from '@/utils/common'
+import toast from '@/utils/toast'
+import ClipboardIcon from '@/components/Icons/clipboard.vue'
 
 export default defineComponent({
    name: 'PreviewLink',

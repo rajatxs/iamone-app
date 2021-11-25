@@ -69,16 +69,17 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
-import { defineComponent } from "vue";
-import { createNamespacedHelpers } from "vuex";
-import { Clink } from "../types/clink";
-import { socialIconPath } from "../utils/common";
-import { fetchSiteMetadata } from "../utils/fetch";
-import toast from "../utils/toast";
+import { defineComponent } from "vue"
+import { createNamespacedHelpers } from "vuex"
+import { Clink } from "@/types/clink"
+import { socialIconPath } from "@/utils/common"
+import { fetchSiteMetadata } from "@/utils/fetch"
+import toast from "@/utils/toast"
 
-const { mapGetters: mapCLinkGetters, mapActions: mapCLinkActions } =
-   createNamespacedHelpers("clink");
+const { 
+   mapGetters: mapCLinkGetters, 
+   mapActions: mapCLinkActions 
+} = createNamespacedHelpers("clink")
 
 export default defineComponent({
    name: "EditCustomLinkModal",
@@ -97,42 +98,42 @@ export default defineComponent({
          description: "",
          favicon: "",
          faviconLoading: false,
-      };
+      }
    },
    computed: {
       ...mapCLinkGetters(["clinks"]),
 
       actionType(): "ADD" | "UPDATE" {
-         return this.linkId ? "UPDATE" : "ADD";
+         return this.linkId ? "UPDATE" : "ADD"
       },
-      payload(): Clink {
+      payload(): Partial<Clink> {
          return {
             title: this.title,
             favicon: this.favicon,
             href: this.href,
             thumb: this.thumb,
             description: this.description,
-         };
+         }
       },
-      link(): Clink {
-         let link = null;
+      link(): Partial<Clink> {
+         let link = null
 
          if (this.actionType === "UPDATE") {
             link = (this.clinks as Clink[]).find(
                (link) => link._id === this.linkId
-            );
+            )
          }
 
-         return link;
+         return link
       },
    },
    created() {
       if (this.actionType === "UPDATE") {
-         this.title = this.link.title;
-         this.favicon = this.link.favicon;
-         this.href = this.link.href;
-         this.thumb = this.link.thumb;
-         this.description = this.link.description;
+         this.title = this.link.title
+         this.favicon = this.link.favicon
+         this.href = this.link.href
+         this.thumb = this.link.thumb
+         this.description = this.link.description
       }
    },
    methods: {
@@ -140,90 +141,90 @@ export default defineComponent({
 
       socialIconPath,
       async assignSiteMetadata() {
-         let { href } = this;
+         let { href } = this
          let data = null,
-            result;
+            result
 
          if (href.length === 0) {
-            return;
+            return
          }
 
          if (!href.startsWith("http")) {
-            href = "http://" + href;
-            this.href = href;
+            href = "http://" + href
+            this.href = href
          }
 
-         this.faviconLoading = true;
+         this.faviconLoading = true
 
-         data = await fetchSiteMetadata(href);
+         data = await fetchSiteMetadata(href)
 
-         this.faviconLoading = false;
+         this.faviconLoading = false
 
          if (typeof data === "object" && data.result) {
-            result = data.result;
-            this.title = result.title;
-            this.thumb = result.thumb;
-            this.favicon = result.favicon;
-            this.description = result.description;
+            result = data.result
+            this.title = result.title
+            this.thumb = result.thumb
+            this.favicon = result.favicon
+            this.description = result.description
          }
       },
       async addNewLink() {
-         const { payload } = this;
+         const { payload } = this
 
          try {
-            await this.addCLink(payload);
-            this.$emit("done");
+            await this.addCLink(payload)
+            this.$emit("done")
             toast.success({
                text: "Link has been added",
                duration: 1200,
-            });
+            })
          } catch (error) {
-            console.log(error);
+            console.log(error)
             toast.error({
                text: "Failed to add new link",
                duration: 1200,
-            });
+            })
          }
       },
       async updateCurrentLink() {
-         const { payload } = this;
+         const { payload } = this
 
-         payload._id = this.linkId;
+         payload._id = this.linkId
 
          try {
-            console.log("PAYLOAD", payload);
-            this.updateCLink(payload);
-            this.$emit("done");
+            console.log("PAYLOAD", payload)
+            this.updateCLink(payload)
+            this.$emit("done")
             toast.success({
                text: "Link has been updated",
                duration: 1200,
-            });
+            })
          } catch (error) {
             toast.error({
                text: "Failed to update link",
                duration: 1200,
-            });
+            })
          }
       },
       async dispatchAction() {
-         this.loading = true;
+         this.loading = true
          switch (this.actionType) {
             case "ADD":
-               await this.addNewLink();
-               break;
+               await this.addNewLink()
+               break
 
             case "UPDATE":
-               await this.updateCurrentLink();
-               break;
+               await this.updateCurrentLink()
+               break
          }
-         this.loading = false;
+         this.loading = false
       },
       handleDeleteAction() {
-         this.$emit("delete", this.linkId);
-         this.$emit("close");
+         this.$emit("delete", this.linkId)
+         this.$emit("close")
       },
    },
-});
+})
 </script>
 
 <style lang="scss" scoped>

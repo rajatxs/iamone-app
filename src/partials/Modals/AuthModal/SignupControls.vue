@@ -1,8 +1,42 @@
+<template>
+   <div class="signup-auth-workarea">
+      <div class="workarea-header">
+         <h3>Create new profile</h3>
+      </div>
+
+      <form name="signup" class="auth-controls" @submit.prevent="handleSignupAction">
+         <app-input-field>
+            <app-input v-model="username" hint="Create username" expanded required />
+         </app-input-field>
+
+         <app-input-field>
+            <app-input v-model="email" format="email" hint="Email address" expanded required />
+         </app-input-field>
+
+         <app-input-field>
+            <app-input v-model="password" format="password" hint="Create password" expanded required />
+         </app-input-field>
+
+         <app-input-field>
+            <app-input v-model="confirmPassword" format="password" hint="Confirm password" expanded required />
+         </app-input-field>
+
+         <app-input-field>
+            <p><small>Read <a href="#" class="text-blue">Privacy policy</a></small></p>
+         </app-input-field>
+
+         <app-input-field>
+            <app-button background="blue" size="small" expanded>Signup</app-button>
+         </app-input-field>
+      </form>
+   </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
-import { AuthPayload } from '../../../types/auth'
-import toast from '../../../utils/toast'
+import { AuthPayload } from '@/types/auth'
+import toast from '@/utils/toast'
 
 const { mapActions: mapAuthActions } = createNamespacedHelpers('auth')
 
@@ -71,40 +105,6 @@ export default defineComponent({
    }
 })
 </script>
-
-<template>
-   <div class="signup-auth-workarea">
-      <div class="workarea-header">
-         <h3>Create new profile</h3>
-      </div>
-
-      <form name="signup" class="auth-controls" @submit.prevent="handleSignupAction">
-         <app-input-field>
-            <app-input v-model="username" hint="Create username" expanded required />
-         </app-input-field>
-
-         <app-input-field>
-            <app-input v-model="email" format="email" hint="Email address" expanded required />
-         </app-input-field>
-
-         <app-input-field>
-            <app-input v-model="password" format="password" hint="Create password" expanded required />
-         </app-input-field>
-
-         <app-input-field>
-            <app-input v-model="confirmPassword" format="password" hint="Confirm password" expanded required />
-         </app-input-field>
-
-         <app-input-field>
-            <p><small>Read <a href="#" class="text-blue">Privacy policy</a></small></p>
-         </app-input-field>
-
-         <app-input-field>
-            <app-button background="blue" size="small" expanded>Signup</app-button>
-         </app-input-field>
-      </form>
-   </div>
-</template>
 
 <style scoped lang="scss">
 @import "./index.scss";

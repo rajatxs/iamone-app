@@ -53,19 +53,19 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
-import { defineComponent } from "vue";
-import { createNamespacedHelpers } from "vuex";
-import { SocialService } from "../types";
-import { SocialRef } from "../types/social-ref";
-import { socialIconPath } from "../utils/common";
-import toast from "../utils/toast";
-import SocialServiceSelectorModal from "./SocialServiceSelectorModal.vue";
+import { defineComponent } from "vue"
+import { createNamespacedHelpers } from "vuex"
+import { SocialService } from "@/types"
+import { SocialRef } from "@/types/social-ref"
+import { socialIconPath } from "@/utils/common"
+import toast from "@/utils/toast"
+import SocialServiceSelectorModal from "./SocialServiceSelectorModal.vue"
 
-const { mapGetters: mapSocialServiceGetters } =
-   createNamespacedHelpers("socialService");
-const { mapGetters: mapSocialRefGetters, mapActions: mapSocialRefActions } =
-   createNamespacedHelpers("socialRef");
+const { mapGetters: mapSocialServiceGetters } = createNamespacedHelpers("socialService")
+const { 
+   mapGetters: mapSocialRefGetters, 
+   mapActions: mapSocialRefActions 
+} = createNamespacedHelpers("socialRef")
 
 export default defineComponent({
    name: "SocialLinkEditorModal",
@@ -86,53 +86,53 @@ export default defineComponent({
          slug: "" as string,
          hint: "Username or unique id",
          viewSelectorModal: false,
-      };
+      }
    },
    computed: {
       ...mapSocialServiceGetters(["socialServices"]),
       ...mapSocialRefGetters(["socialRefs"]),
 
       actionType(): "ADD" | "UPDATE" {
-         return this.linkId ? "UPDATE" : "ADD";
+         return this.linkId ? "UPDATE" : "ADD"
       },
       socialService(): SocialService {
-         return this.currentSocialService || { name: "im1", key: "im1" };
+         return this.currentSocialService || { name: "im1", key: "im1" }
       },
       socialRef(): SocialRef {
-         let ref: SocialRef = null;
+         let ref: SocialRef = null
 
          if (this.actionType === "UPDATE") {
             ref = (this.socialRefs as SocialRef[]).find(
                (ref) => ref._id === this.linkId
-            );
+            )
          }
 
-         return ref;
+         return ref
       },
-      payload(): SocialRef {
+      payload(): Partial<SocialRef> {
          return {
             label: this.label,
             slug: this.slug,
             socialServiceKey: this.socialService.key,
-         };
+         }
       },
    },
    watch: {
       currentSocialService(newService: SocialService) {
-         this.hint = newService.hint;
+         this.hint = newService.hint
       },
    },
    created() {
       if (this.actionType === "UPDATE") {
-         this.label = this.socialRef.label;
-         this.slug = this.socialRef.slug;
+         this.label = this.socialRef.label
+         this.slug = this.socialRef.slug
       }
    },
    beforeMount() {
       if (this.actionType === "UPDATE") {
          this.currentSocialService = (
             this.socialServices as SocialService[]
-         ).find((service) => service.key === this.socialRef.socialServiceKey);
+         ).find((service) => service.key === this.socialRef.socialServiceKey)
       }
    },
    methods: {
@@ -140,71 +140,71 @@ export default defineComponent({
 
       socialIconPath,
       async addNewSocialRef() {
-         const { payload } = this;
+         const { payload } = this
 
-         console.log("PAYLOAD", payload);
+         console.log("PAYLOAD", payload)
          try {
-            await this.addSocialRef(payload);
-            this.$emit("done");
+            await this.addSocialRef(payload)
+            this.$emit("done")
             toast.success({
                text: "Link has been added",
                duration: 1200,
-            });
+            })
          } catch (error) {
             toast.error({
                text: "Failed to add new link",
                duration: 1200,
-            });
+            })
          }
       },
       async updateCurrentSocialRef() {
-         const { payload } = this;
+         const { payload } = this
 
-         payload._id = this.linkId;
+         payload._id = this.linkId
 
          try {
-            await this.updateSocialRef(payload);
-            this.$emit("done");
+            await this.updateSocialRef(payload)
+            this.$emit("done")
             toast.success({
                text: "Link has been updated",
                duration: 1200,
-            });
+            })
          } catch (error) {
             toast.error({
                text: "Failed to update link",
                duration: 1200,
-            });
+            })
          }
       },
       async dispatchAction() {
-         this.loading = true;
+         this.loading = true
          switch (this.actionType) {
             case "ADD":
-               await this.addNewSocialRef();
-               break;
+               await this.addNewSocialRef()
+               break
 
             case "UPDATE":
-               await this.updateCurrentSocialRef();
-               break;
+               await this.updateCurrentSocialRef()
+               break
          }
-         this.loading = false;
+         this.loading = false
       },
-      handleSocialServiceSelection(service: SocialService) {
-         this.currentSocialService = service;
-         this.closeSelectorModal();
+      handleSocialServiceSelection(service: SocialService)  {
+         this.currentSocialService = service
+         this.closeSelectorModal()
       },
       handleDeleteAction() {
-         this.$emit("delete", this.linkId);
-         this.$emit("close");
+         this.$emit("delete", this.linkId)
+         this.$emit("close")
       },
       showSelectorModal() {
-         this.viewSelectorModal = true;
+         this.viewSelectorModal = true
       },
       closeSelectorModal() {
-         this.viewSelectorModal = false;
+         this.viewSelectorModal = false
       },
    },
-});
+})
 </script>
 
 <style lang="scss" scoped>

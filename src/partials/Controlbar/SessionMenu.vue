@@ -1,9 +1,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
-import { toUrl } from '../utils/common'
-import HomeCircleIcon from './Icons/home-circle.vue'
-import LogoutCircleIcon from './Icons/log-out-circle.vue'
+import { toUrl } from '../../utils/common'
+import HomeCircleIcon from '../../components/Icons/home-circle.vue'
+import LogoutCircleIcon from '../../components/Icons/log-out-circle.vue'
 
 const { mapGetters: mapUserGetters } = createNamespacedHelpers('user')
 const { mapActions: mapAuthActions } = createNamespacedHelpers('auth')

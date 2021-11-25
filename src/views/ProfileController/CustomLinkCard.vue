@@ -2,7 +2,11 @@
    <app-card title="Links" gap="large">
       <template #body>
          <div class="custom-links">
-            <div v-for="link in clinks" :key="link._id" class="custom-link" @click="editCutomLink(link._id)">
+            <div 
+               v-for="link in clinks" 
+               :key="link._id" 
+               class="custom-link" 
+               @click="editCutomLink(link._id)">
                <div class="link-thumb">
                   <img class="thumb-image" :src="link.favicon || '/icons/im1.svg'" alt="">
                </div>
@@ -12,7 +16,12 @@
                </div>
             </div>
 
-            <app-button gradient="2" expanded @click="openEditorModal">Add new one</app-button>
+            <app-button 
+               gradient="2" 
+               expanded 
+               @click="openEditorModal">
+               Add new one
+            </app-button>
          </div>
          <EditCustomLinkModal 
             v-if="viewEditorModal" 
@@ -27,12 +36,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
-import PlusIcon from '../Icons/plus.vue'
-import EditCustomLinkModal from '../EditCustomLinkModal.vue'
-import { truncate } from '../../utils/common'
-import toast from '../../utils/toast'
+import PlusIcon from '@/components/Icons/plus.vue'
+import { truncate } from '@/utils/common'
+import toast from '@/utils/toast'
+import EditCustomLinkModal from './Modals/EditCustomLinkModal.vue'
 
-const { mapGetters: mapCLinkGetters, mapActions: mapCLinkActions } = createNamespacedHelpers('clink')
+const { 
+   mapGetters: mapCLinkGetters, 
+   mapActions: mapCLinkActions 
+} = createNamespacedHelpers('clink')
 
 export default defineComponent({
    name: 'SocialLinkCard',

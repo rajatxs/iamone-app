@@ -16,9 +16,9 @@
 import { defineComponent } from 'vue'
 import { api } from './utils/axios'
 import { mapState, createNamespacedHelpers } from 'vuex'
-import AppControlbar from './components/Controlbar.vue'
-import AppMockup from './components/Mockups/Mockup.vue'
-import BlindArea from './components/BlindArea.vue'
+import AppControlbar from './partials/Controlbar/Controlbar.vue'
+import AppMockup from './partials/Mockups/Mockup.vue'
+import BlindArea from './partials/BlindArea.vue'
 import commonMixin from './mixins/common'
 
 const { 

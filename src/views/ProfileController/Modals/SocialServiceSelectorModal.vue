@@ -27,7 +27,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
-import { SocialService } from '../types'
+import { SocialService } from '@/types'
 
 const { mapGetters: mapSocialServiceGetters } = createNamespacedHelpers('socialService')
 

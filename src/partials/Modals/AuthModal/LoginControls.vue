@@ -1,7 +1,36 @@
+<template>
+   <div class="login-auth-workarea">
+      <div class="workarea-header">
+         <h3>Continue to im1</h3>
+      </div>
+
+      <form name="login" class="auth-controls" @submit.prevent="handleLoginAction">
+         <app-input-field>
+            <app-input v-model="address" hint="Username or Email" expanded required />
+         </app-input-field>
+
+         <app-input-field>
+            <app-input format="password" v-model="password" hint="Password" expanded required />
+         </app-input-field>
+         <app-input-field justify="right">
+            <a href="#" class="text-center text-grey">
+               <small>Forgot password</small>
+            </a>
+         </app-input-field>
+
+         <br />
+
+         <app-input-field>
+            <app-button background="blue" size="small" :loading="loadingState" expanded>Login</app-button>
+         </app-input-field>
+      </form>
+   </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
-import toast from '../../../utils/toast'
+import toast from '@/utils/toast'
 
 const { mapActions: mapAuthActions } = createNamespacedHelpers('auth')
 
@@ -52,35 +81,6 @@ export default defineComponent({
    }
 })
 </script>
-
-<template>
-   <div class="login-auth-workarea">
-      <div class="workarea-header">
-         <h3>Continue to im1</h3>
-      </div>
-
-      <form name="login" class="auth-controls" @submit.prevent="handleLoginAction">
-         <app-input-field>
-            <app-input v-model="address" hint="Username or Email" expanded required />
-         </app-input-field>
-
-         <app-input-field>
-            <app-input format="password" v-model="password" hint="Password" expanded required />
-         </app-input-field>
-         <app-input-field justify="right">
-            <a href="#" class="text-center text-grey">
-               <small>Forgot password</small>
-            </a>
-         </app-input-field>
-
-         <br />
-
-         <app-input-field>
-            <app-button background="blue" size="small" :loading="loadingState" expanded>Login</app-button>
-         </app-input-field>
-      </form>
-   </div>
-</template>
 
 <style scoped lang="scss">
 @import "./index.scss";

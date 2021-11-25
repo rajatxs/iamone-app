@@ -71,9 +71,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
-import toast from '../../utils/toast'
-import ShowIcon from '../Icons/show.vue'
-import HideIcon from '../Icons/hide.vue'
+import toast from '@/utils/toast'
+import ShowIcon from '@/components/Icons/show.vue'
+import HideIcon from '@/components/Icons/hide.vue'
 
 const { mapActions: mapUserActions } = createNamespacedHelpers('user')
 

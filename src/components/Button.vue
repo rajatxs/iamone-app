@@ -1,3 +1,14 @@
+<template>
+   <button 
+      :class="buttonClasses" 
+      :aria-expanded="expanded"
+      :disabled="disabled">
+
+      <app-loader v-if="loading" />
+      <slot v-else></slot>
+   </button>
+</template>
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 
@@ -61,17 +72,6 @@ export default defineComponent({
    }
 })
 </script>
-
-<template>
-   <button 
-      :class="buttonClasses" 
-      :aria-expanded="expanded"
-      :disabled="disabled">
-
-      <app-loader v-if="loading" />
-      <slot v-else></slot>
-   </button>
-</template>
 
 <style lang="scss">
 .app-button {
