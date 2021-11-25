@@ -1,0 +1,23 @@
+.vscreen-splash {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+
+   .vscreen-splash-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: calc(4.48rem);
+      height: calc(4.48rem);
+      user-select: none;
+      -webkit-user-drag: none;
+   }
+}
+
+.app-icon {
+   width: 14pt;
+   height: 14pt;
+}

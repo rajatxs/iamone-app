@@ -1,0 +1,63 @@
+
+/* ----------- iPhone X ----------- */
+@mixin on-phone-portrait-scale {
+   @media only screen 
+   and (min-width: 375px) 
+   and (max-width: 812px) 
+   and (orientation: portrait) {
+      @content;
+   }
+}
+@mixin over-phone-scale {
+   @media screen and (min-width: 812px) {
+      @content;
+   }
+}
+
+@mixin under-phone-scale {
+   @media screen and (max-width: 812px) {
+      @content;
+   }
+}
+
+/* ----------- Galaxy Tab 2 ----------- */
+@mixin on-tablet-portrait-scale {
+   @media only screen 
+   and (min-width: 800px) 
+   and (max-width: 1280px)
+   and (orientation: portrait) {
+      @content;
+   }
+}
+
+@mixin over-tablet-portrait-scale {
+   @media screen and (min-width: 800px) {
+      @content;
+   }
+}
+
+@mixin under-tablet-portrait-scale {
+   @media screen and (max-width: 800px) {
+      @content;
+   }
+}
+
+/* ----------- iPad 1, 2, Mini and Air ----------- */
+@mixin on-ipad-portrait-scale {
+   @media only screen 
+   and (min-width: 768px) 
+   and (max-width: 1024px) 
+   and (orientation: portrait)  {
+      @content;
+   }
+}
+
+/* ----------- iPad Pro 10.5" ----------- */
+@mixin on-ipad-pro-portrait-scale {
+   @media only screen 
+   and (min-width: 834px) 
+   and (max-width: 834px) 
+   and (orientation: portrait)  {
+      @content;
+   }
+}
