@@ -1,0 +1,28 @@
+
+.controlbar-navmenu-item {
+   position: relative;
+
+   .controlbar-navmenu-icon {
+      position: relative;
+      padding: 2pt;
+      width: 25pt;
+      height: 25pt;
+      cursor: pointer;
+      border-radius: 50%;
+      box-sizing: content-box;
+      z-index: 500;
+      border-width: 1px;
+      border-style: solid;
+      border-color: transparent;
+   }
+
+   &:hover {
+      border-color: var(--accents-2);
+   }
+
+   .controlbar-navmenu-icon-image {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+   }
+}

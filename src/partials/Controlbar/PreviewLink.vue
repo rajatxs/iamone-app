@@ -1,15 +1,8 @@
 <template>
-   <div class="app-preview-link xstack radius-medium align-center">
-      <a 
-         class="preview-link-text xstack align-center" 
-         :href="link" 
-         target="_blank">
-         {{ link }}
-      </a>
-      
-      <div 
-         class="link-clipboard-action xstack justify-center align-center" 
-         @click="copyToClipboard">
+   <div class="app-preview-link hide-under-phone xstack radius-medium align-center">
+      <a class="preview-link-text xstack align-center" :href="link" target="_blank">{{ link }}</a>
+
+      <div class="link-clipboard-action xstack justify-center align-center" @click="copyToClipboard">
          <ClipboardIcon />
       </div>
    </div>
@@ -50,44 +43,44 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+@import "../../scss/mixins/scale";
+
 .app-preview-link {
    color: inherit;
    height: 32pt;
    font-size: 11.2pt;
    border: 1px solid var(--accents-2);
    background-color: var(--background);
+}
+.preview-link-text {
+   height: 100%;
+   border-top-left-radius: inherit;
+   border-bottom-left-radius: inherit;
+   padding-left: var(--gap-half);
+   padding-right: var(--gap-quarter);
+   color: inherit;
+   transition: background-color 120ms linear;
 
-   .preview-link-text {
-      height: 100%;
-      border-top-left-radius: inherit;
-      border-bottom-left-radius: inherit;
-      padding-left: var(--gap-half);
-      padding-right: var(--gap-quarter);
-      color: inherit;
-      transition: background-color 120ms linear;
-
-      &:hover {
-         background-color: var(--accents-1);
-      }
+   &:hover {
+      background-color: var(--accents-1);
    }
+}
+.link-clipboard-action {
+   cursor: pointer;
+   height: 100%;
+   width: 28pt;
+   border-top-right-radius: inherit;
+   border-bottom-right-radius: inherit;
+   background-color: transparent;
+   transition: background-color 120ms linear;
 
-   .link-clipboard-action {
-      cursor: pointer;
-      height: 100%;
-      width: 28pt;
-      border-top-right-radius: inherit;
-      border-bottom-right-radius: inherit;
-      background-color: transparent;
-      transition: background-color 120ms linear;
-
-      &:hover {
-         background-color: var(--foreground);
-         color: var(--primary-fr);
-      }
-      .app-icon {
-         width: 11pt;
-         height: 11pt;
-      }
+   &:hover {
+      background-color: var(--foreground);
+      color: var(--primary-fr);
+   }
+   .app-icon {
+      width: 11pt;
+      height: 11pt;
    }
 }
 </style>

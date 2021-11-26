@@ -1,21 +1,26 @@
 <template>
-   <div class="app-blind-area">
+   <Teleport to="#universal-area">
       <AuthModal v-if="viewAuthModal" />
 
-      <QRCodeModal 
-         v-if="viewQRCodeModal"
+      <QRCodeModal
+         v-if="viewQRCodeModal" 
          @close="SHOW_QRCODE_MODAL(false)" />
+
+      <ShareLinkModal
+         v-if="viewShareModal"
+         @close="SHOW_SHARE_MODAL(false)" />
 
       <UpdatePasswordModal 
          v-if="viewUpdatePasswordModal"
          @close="SHOW_UPDATE_PASSWORD_MODAL(false)" />
-   </div>
+   </Teleport>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
 import QRCodeModal from './Modals/QRCodeModal.vue'
+import ShareLinkModal from "./Modals/ShareLinkModal.vue"
 import AuthModal from './Modals/AuthModal/AuthModal.vue'
 import UpdatePasswordModal from "./Modals/UpdatePasswordModal.vue"
 
@@ -25,9 +30,10 @@ const {
 } = createNamespacedHelpers('ui')
 
 export default defineComponent({
-   name: 'AppBlindArea',
+   name: 'AppUniversalArea',
    components: {
       QRCodeModal,
+      ShareLinkModal,
       AuthModal,
       UpdatePasswordModal
    },

@@ -3,7 +3,12 @@
       <div class="controlbar-top">
          <AppLogo :size="80" />
          <PreviewLink />
-         <SessionMenu />
+
+         <div class="controlbar-navigation xstack gap-medium">
+            <app-nav-menu-icon icon="qr" @click="SHOW_QRCODE_MODAL(true)"></app-nav-menu-icon>
+            <app-nav-menu-icon icon="share-alt" @click="SHOW_SHARE_MODAL(true)"></app-nav-menu-icon>
+            <SessionMenu />
+         </div>
       </div>
 
       <div class="control-sector-tab">
@@ -24,7 +29,9 @@
    </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { createNamespacedHelpers } from 'vuex'
 import AppLogo from './Logo.vue'
 import SessionMenu from './SessionMenu.vue'
 import PreviewLink from './PreviewLink.vue'
@@ -34,24 +41,45 @@ interface ControlSectorTab {
    path: string
 }
 
-const controlSectorTabs: ControlSectorTab[] = [
-   {
-      label: 'Profile',
-      path: '/'
+const { mapMutations: mapUIMutations } = createNamespacedHelpers('ui')
+
+export default defineComponent({
+   name: 'AppControlbar',
+
+   components: {
+      AppLogo,
+      SessionMenu,
+      PreviewLink
    },
-   {
-      label: 'Design',
-      path: '/design'
+
+   data() {
+      return {
+         controlSectorTabs: <ControlSectorTab[]>[
+            {
+               label: 'Profile',
+               path: '/'
+            },
+            {
+               label: 'Design',
+               path: '/design'
+            },
+            {
+               label: 'Analytics',
+               path: '/analytics'
+            },
+            {
+               label: 'Settings',
+               path: '/settings'
+            }
+         ]
+      }
    },
-   {
-      label: 'Analytics',
-      path: '/analytics'
-   },
-   {
-      label: 'Settings',
-      path: '/settings'
-   }
-]
+
+   methods: mapUIMutations([
+      'SHOW_QRCODE_MODAL', 
+      'SHOW_SHARE_MODAL'
+   ])
+})
 </script>
 
 <style lang="scss" scoped>
@@ -114,12 +142,12 @@ const controlSectorTabs: ControlSectorTab[] = [
 }
 
 .controlbar-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-left: 28pt;
-      margin-right: 28pt;
-   }
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-left: 28pt;
+   margin-right: 28pt;
+}
 
 @media screen and (max-width: 1060px) {
    .app-controlbar {

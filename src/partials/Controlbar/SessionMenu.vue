@@ -1,3 +1,22 @@
+<template>
+   <div class="session-menu">
+      <div class="menu-icon" @click="toggleMenu">
+         <img class="menu-icon-image" :src="toUrl('/_/api/user/image/', user.image)" />
+      </div>
+      <div v-if="showMenu" class="menu-area">
+         <div class="menu-item" @click="gotoHome">
+            <HomeCircleIcon />
+            <span class="label">Home</span>
+         </div>
+         <div class="menu-item text-red" @click="logout">
+            <LogoutCircleIcon />
+            <span class="label">Logout</span>
+         </div>
+      </div>
+      <div v-if="showMenu" class="menu-blind-area" @mousedown.self="toggleMenu"></div>
+   </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { createNamespacedHelpers } from 'vuex'
@@ -34,25 +53,6 @@ export default defineComponent({
    }
 })
 </script>
-
-<template>
-   <div class="session-menu">
-      <div class="menu-icon" @click="toggleMenu">
-         <img class="menu-icon-image" :src="toUrl('/_/api/user/image/', user.image)" />
-      </div>
-      <div v-if="showMenu" class="menu-area">
-         <div class="menu-item" @click="gotoHome">
-            <HomeCircleIcon />
-            <span class="label">Home</span>
-         </div>
-         <div class="menu-item text-red" @click="logout">
-            <LogoutCircleIcon />
-            <span class="label">Logout</span>
-         </div>
-      </div>
-      <div v-if="showMenu" class="menu-blind-area" @mousedown.self="toggleMenu"></div>
-   </div>
-</template>
 
 <style scoped lang="scss">
 .session-menu {
