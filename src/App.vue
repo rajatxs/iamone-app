@@ -9,7 +9,7 @@
     <h3 class="universal-data-loading-message">Just a moment</h3>
   </div>
 
-  <BlindArea />
+  <UniversalArea />
 </template>
 
 <script lang="ts">
@@ -18,7 +18,7 @@ import { api } from './utils/axios'
 import { mapState, createNamespacedHelpers } from 'vuex'
 import AppControlbar from './partials/Controlbar/Controlbar.vue'
 import AppMockup from './partials/Mockups/Mockup.vue'
-import BlindArea from './partials/BlindArea.vue'
+import UniversalArea from './partials/UniversalArea.vue'
 import commonMixin from './mixins/common'
 
 const { 
@@ -32,7 +32,7 @@ export default defineComponent({
   components: {
     AppControlbar,
     AppMockup,
-    BlindArea
+    UniversalArea
   },
   data() {
     return {
