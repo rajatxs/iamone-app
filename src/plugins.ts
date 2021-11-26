@@ -7,6 +7,7 @@ import AppLoader from './components/Loader.vue'
 import AppCard from './components/Card.vue'
 import AppModal from './components/Modal.vue'
 import InputField from './components/InputField.vue'
+import NavMenuIcon from './components/NavMenuIcon.vue'
 
 import 'inter-ui/inter.css'
 import './scss/main.scss'
@@ -21,5 +22,6 @@ export const AppPlugin: Plugin = {
       app.component('app-card', AppCard)
       app.component('app-modal', AppModal)
       app.component('app-input-field', InputField)
+      app.component('app-nav-menu-icon', NavMenuIcon)
    }
 }
