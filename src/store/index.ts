@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios'
 import type { MutationTree, ActionTree, GetterTree } from 'vuex'
 import { AppStore } from '../types'
 import { templateApi } from '../utils/axios'
+import env from '../utils/env'
 import ui from './ui'
 import socialService from './social-services'
 import user from './user'
@@ -96,6 +97,9 @@ const actions: ActionTree<AppStore, any> = {
 }
 
 const getters: GetterTree<AppStore, any> = {
+  livePageURL(state, getter, rootState, rootGetters): string {
+    return env.remoteUrl + '/' + rootGetters['user/user'].username
+  },
   templateData(state, getters, rootState, rootGetters) {
     const user = rootGetters['user/user']
     const social = rootGetters['socialRef/socialRefs']
