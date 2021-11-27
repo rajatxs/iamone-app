@@ -36,17 +36,30 @@ const userModule: Module<UserState, AppStore> = {
 
    actions: {
       async loadUserDetails({ state, commit }) {
-         const response = await api.get<ApiResponse<User>>('/user/detail')
+         let response: AxiosRequestConfig<ApiResponse<User>>
          let data: User
-   
+
          if (state._loaded) {
             commit('SET_LOAD_STATE', false)
          }
-   
-         if (response.status === 200 && response.data.result) {
-            data = response.data.result
-            commit('SET_USER_DATA', data)
-            commit('SET_LOAD_STATE', true)
+
+         try {
+            response = await api.get<ApiResponse<User>>('/user/detail')
+
+            if (response.data.statusCode === 200 && response.data.result) {
+               data = response.data.result
+               commit('SET_USER_DATA', data)
+               commit('SET_LOAD_STATE', true)
+            }
+         } catch (error) {
+            const errorStatusCode = error.response.data.statusCode
+
+            switch(errorStatusCode) {
+               case 404:
+               case 400:
+                  this.dispatch('auth/logout')
+                  break
+            }
          }
       },
    
