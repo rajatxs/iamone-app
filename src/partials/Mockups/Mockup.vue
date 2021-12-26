@@ -1,78 +1,132 @@
-<script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue'
-import { mapGetters } from 'vuex'
-import * as handlebars from 'handlebars'
-import { loadStyleSheet } from '../../utils/common'
-
-export default defineComponent({
-   data() {
-      return {
-         code: '' as string,
-      }
-   },
-   computed: {
-      ...mapGetters(['templateSource', 'templateData']),
-
-      mockupComponent() {
-         return defineAsyncComponent(() => import('./DefaultMobile.vue'))
-      }
-   },
-
-   async mounted() {
-      loadStyleSheet('https://iamone.link/_/static/page/css/master.css')
-      loadStyleSheet('https://iamone.link/_/static/page/css/default.css')
-      this.compile()
-      this.registerWatchers()
-   },
-   methods: {
-      compile(): void {
-         const delegate = handlebars.compile(this.templateSource)
-         const source = delegate(this.templateData)
-
-         this.code = source
-      },
-      registerWatchers() {
-         const watchers = [
-            'templateData.user.fullname',
-            'templateData.user.company',
-            'templateData.user.bio',
-            'templateData.user.image',
-            'templateData.social',
-            'templateData.links'
-         ]
-
-         watchers.forEach(prop => {
-            this.$watch(prop, () => this.compile())
-         })
-      }
-   }
-})
-</script>
-
 <template>
    <div class="mockup-area">
-      <keep-alive>
-         <component :is="mockupComponent" :code="code"></component>
+      <keep-alive v-if="mockupComponent">
+         <component 
+            :is="mockupComponent" 
+            :code="code"
+            @content="handleContentEvent"></component>
       </keep-alive>
    </div>
 </template>
 
-<style scoped lang="scss">
-@import "../../scss/const";
-@import "../../scss/mixins/scale";
+<script>
+import Vue from "vue";
+import handlebars from "handlebars";
+import { templateApi } from '../../http';
 
-.mockup-area {
-   display: flex;
-   width: $mockup-area-width;
-   height: 100%;
-   justify-content: center;
-   align-items: center;
-}
+export default Vue.extend({
+   name: "AppMockup",
+   data() {
+      return {
+         code: "",
+         templateSource: "",
+         mockupComponent: null,
+      };
+   },
+   computed: {
+      templateData() {
+         return this.$store.getters.templateData;
+      },
+      templateName() {
+         return this.$store.getters['pageConfig/pageConfig'].templateName;
+      },
+   },
+   watch: {
+      async templateName() {
+         await this.loadMockup();
+         await this.loadTemplateSource();
+      },
+      templateSource() {
+         this.compile();
+      },
+   },
 
-@media screen and (max-width: 1060px) {
-   .mockup-area {
-      display: none;
+   async mounted() {
+      await this.loadMockup();
+      await this.loadTemplateSource();
+      this.registerWatchers();
+
+      window['pageAction'].call(this, "RENDER_SOCIAL_ICONS");
+   },
+
+   methods: {
+      /** Compile remote template */
+      compile() {
+         const delegate = handlebars.compile(this.templateSource);
+         const source = delegate(this.templateData);
+
+         this.code = source;
+      },
+
+      /** Load custom mockup component */
+      async loadMockup() {
+         this.mockupComponent = (await import("./DefaultMobile.vue")).default;
+      },
+
+      /** Load template source */
+      async loadTemplateSource() {
+         let { templateName } = this;
+         let response = null, endpoint = '/';
+
+         if (!templateName) {
+            templateName = 'default';
+         }
+
+         endpoint += templateName;
+
+         try {
+            response = await templateApi.get(endpoint + '.hbs')
+
+            if (typeof response.data === 'string') {
+               this.templateSource = response.data;
+            }
+         } catch (error) {
+            this.$toast.error("Failed to get design template");
+         }
+      },
+
+      /** Register update events */
+      registerWatchers() {
+         const watchers = [
+            "templateData.user.fullname",
+            "templateData.user.company",
+            "templateData.user.bio",
+            "templateData.user.image",
+            "templateData.social",
+            "templateData.links"
+         ];
+
+         watchers.forEach((prop) => {
+            this.$watch(prop, () => this.compile());
+         });
+      },
+
+      handleContentEvent() {
+         window['pageAction'].call(this, "RENDER_SOCIAL_ICONS");
+      }
+   },
+});
+</script>
+
+<style scoped>
+@keyframes mockup-screen-enter-view {
+   from {
+      opacity: 0;
+      transform: translateX(68px);
+   }
+   to {
+      opacity: 1;
+      transform: translateX(0);
    }
 }
 
+.mockup-area {
+   display: flex;
+   width: 40vw;
+   height: 100%;
+   justify-content: center;
+   align-items: center;
+   animation-name: mockup-screen-enter-view;
+   animation-duration: 640ms;
+}
 </style>

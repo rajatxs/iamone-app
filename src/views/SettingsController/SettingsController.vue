@@ -1,20 +1,25 @@
 <template>
-   <app-view name="settings">
-     <AccountSettings />
-     <RiskZone />
-   </app-view>
+   <app-controller-view name="settings">
+     <page-settings />
+     <account-settings />
+     <risk-zone />
+
+     <br />
+   </app-controller-view>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script>
+import Vue from 'vue'
 import AccountSettings from './AccountSettings.vue'
 import RiskZone from './RiskZone.vue'
+import PageSettings from './PageSettings.vue'
 
-export default defineComponent({
+export default Vue.extend({
    name: 'SettingsController',
    components: {
-      AccountSettings,
-      RiskZone
+      'account-settings': AccountSettings,
+      'risk-zone': RiskZone,
+      'page-settings': PageSettings
    }
 })
 </script>

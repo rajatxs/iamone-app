@@ -2,28 +2,29 @@
    <app-card gap="medium">
       <template #body>
          <div class="profile-meta-info-card">
-            <div class="profile-avatar">
-               <ProfileAvatarSelector />
+            <div class="profile-avatar h-auto margin-y-medium xstack justify-center">
+               <profile-avatar-selector />
             </div>
 
             <div class="profile-meta-inputs">
                <div class="meta-input-grid">
-                  <div class="meta-input-field meta-name-input-field">
+                  <div class="meta-input-field w-100 meta-name-input-field">
                      <app-input
                         v-model="fullname"
+                        :spellcheck="false"
+                        autocomplete="name"
                         hint="Name"
                         expanded
-                        :spellcheck="false"
                      />
                   </div>
 
-                  <div class="meta-input-field meta-company-input-field">
+                  <div class="meta-input-field w-100 meta-location-input-field">
                      <app-input
-                        v-model="company"
+                        v-model="location"
+                        :spellcheck="false"
+                        autocomplete="country-name"
                         hint="Location"
                         expanded
-                        :spellcheck="false"
-                        :value="company"
                      />
                   </div>
                </div>
@@ -35,18 +36,18 @@
                      multiline
                      minlines="3"
                      expanded
-                     :value="bio"
                   />
                </div>
 
-               <div class="meta-input-field meta-trigger-action">
+               <div class="meta-input-field meta-trigger-action text-center">
                   <app-button
+                     role="button"
                      gradient="5"
                      expanded
                      :loading="inProgress"
-                     @click="saveUserData"
-                     >Save</app-button
-                  >
+                     @click="saveUserData">
+                     Save
+                  </app-button>
                </div>
             </div>
          </div>
@@ -54,105 +55,100 @@
    </app-card>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue"
-import { createNamespacedHelpers } from "vuex"
-import ProfileAvatarSelector from "../../partials/ProfileAvatarSelector.vue"
-import toast from "../../utils/toast"
+<script>
+import Vue from "vue";
+import ProfileAvatarSelector from "./ProfileAvatarSelector.vue";
 
-const { 
-   mapGetters: mapUserGetters, 
-   mapActions: mapUserActions 
-} = createNamespacedHelpers("user")
-
-interface ProfileDataPayload {
-   fullname?: string
-   company?: string
-   bio?: string
-}
-
-export default defineComponent({
+export default Vue.extend({
    name: "ProfleMetaInfoCard",
    components: {
-      ProfileAvatarSelector,
+      'profile-avatar-selector': ProfileAvatarSelector
    },
    data() {
       return {
-         fullname: "Rajat",
-         company: "",
+         fullname: "",
+         location: "",
          bio: "",
-
          inProgress: false,
-      }
+      };
    },
    computed: {
-      ...mapUserGetters(["user", "loaded"]),
+      user() {
+         return this.$store.getters['user/user']
+      },
 
-      payload(): ProfileDataPayload {
+      payload() {
          return {
             fullname: this.fullname,
-            company: this.company,
+            location: this.location,
             bio: this.bio,
-         }
+         };
       },
    },
    mounted() {
-      const { user } = this
+      const { user } = this;
 
-      this.fullname = user.fullname
-      this.company = user.company
-      this.bio = user.bio
+      this.fullname = user.fullname;
+      this.location = user.location;
+      this.bio = user.bio;
    },
    methods: {
-      ...mapUserActions(["updateUserDetails"]),
-
       async saveUserData() {
-         const { payload } = this
+         const { payload } = this;
+         let response = null;
 
-         this.inProgress = true
+         console.log("DATA", payload)
+
+         this.inProgress = true;
 
          try {
-            await this.updateUserDetails(payload)
-            toast.success("Profile updated")
+            response = await this.axios.put('/user/detail', payload);
+
+            if (response.status === 200) {
+               await this.$store.dispatch('user/loadUser');
+               this.$toast.success("Profile updated");
+            }
          } catch (error) {
-            console.log("Failed to update user profile", error)
+            this.$toast.error("Failed to update user profile");
          }
 
-         this.inProgress = false
+         this.inProgress = false;
       },
    },
-})
+});
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .profile-meta-info-card {
    display: flex;
    flex-direction: row;
-
-   .meta-input-grid {
-      display: flex;
-      gap: 12px;
+}
+.profile-meta-info-card .meta-input-grid {
+   display: flex;
+   gap: var(--gap-half);
+}
+.profile-meta-info-card .meta-input-field {
+   margin-top: var(--gap-quarter);
+   margin-bottom: var(--gap-quarter);
+}
+.profile-meta-info-card .profile-avatar {
+   min-width: 160px;
+}
+.profile-meta-info-card .profile-meta-inputs .meta-trigger-action {
+   margin-top: var(--gap-half);
+}
+@media (max-width: 480px) {
+   .profile-meta-info-card {
+      flex-direction: column;
    }
-
-   .meta-input-field {
-      margin-top: var(--gap-quarter);
-      margin-bottom: var(--gap-quarter);
+   .profile-meta-info-card .meta-input-grid {
+      flex-direction: column;
+      gap: 0;
    }
-
-   .profile-avatar {
-      display: flex;
-      padding-top: var(--gap);
-      min-width: 160px;
-      justify-content: center;
-      height: auto;
-   }
-
-   .profile-meta-inputs {
-      width: 430px;
-
-      .meta-trigger-action {
-         margin-top: var(--gap-half);
-      }
+}
+@media (min-width: 481px) and (max-width: 767px) {
+   .profile-meta-info-card {
+      flex-direction: column;
    }
 }
 </style>

@@ -1,37 +1,43 @@
 <template>
    <transition name="fade">
-      <div 
-         :class="modalOutlayerClasses" 
+      <div
+         :class="modalOutlayerClasses"
          :aria-label="modalAriaLabel"
-         :style="modalOutlayerStyle" 
-         @mousedown="handleBlurAction">
-         <div class="app-modal" v-bind:style="modalStyle">
-
+         :style="modalOutlayerStyle"
+         @mousedown="handleBlurAction"
+      >
+         <div :class="modalClasses" v-bind:style="modalStyle">
             <!-- Modal top area -->
-            <div class="app-modal-top" :style="modalTopStyle">
-
+            <div
+               class="app-modal-top xstack justify-center align-center"
+               :style="modalTopStyle"
+            >
                <!-- Modal header -->
                <div class="app-modal-header">
-                  <h4 v-if="title" class="modal-title">{{ title }}</h4>
+                  <h4 v-if="title" class="modal-title margin-0">{{ title }}</h4>
                </div>
 
                <!-- Modal primary actions -->
-               <div class="app-modal-actions">
-
+               <div class="app-modal-actions pos-abs xstack align-center">
                   <!-- Close icon -->
-                  <div v-if="closeButton && toggle" class="close-button">
-                     <app-icon-button name="x" @click="handleCloseAction"></app-icon-button>
+                  <div v-if="closeButton" class="close-button">
+                     <app-icon-button
+                        name="x"
+                        @click="handleCloseAction"
+                     ></app-icon-button>
                   </div>
                </div>
             </div>
 
             <!-- Modal body -->
-            <div class="app-modal-body" v-bind:style="modalBodyStyle">
+            <div :class="modalBodyClasses" v-bind:style="modalBodyStyle">
                <slot></slot>
             </div>
 
             <!-- Modal footer -->
-            <div class="app-modal-footer xstack gap-medium justify-center">
+            <div
+               class="app-modal-footer pos-abs xstack gap-medium justify-center"
+            >
                <slot name="footer"></slot>
             </div>
          </div>
@@ -39,133 +45,158 @@
    </transition>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { generateElementId } from '../utils/random'
+<script>
+import Vue from "vue";
+import { generateElementId } from "../utils/random";
 
-export default defineComponent({
-   name: 'AppModal',
-
+export default Vue.extend({
+   name: "AppModal",
    props: {
       title: {
          type: String,
-         required: false
+         required: false,
       },
       width: {
          type: String,
-         default: '420px'
+         default: "420px",
       },
       height: {
          type: String,
-         default: 'auto'
+         default: "auto",
       },
       minheight: {
          type: String,
-         default: '60px'
+         default: "60px",
       },
-      toggle: {
+      autoresize: {
          type: Boolean,
-         default: true
+         default: false,
       },
       transparent: {
          type: Boolean,
-         default: false
+         default: false,
+      },
+      gap: {
+         type: String,
+         default: "medium",
       },
       radius: {
          type: String,
-         default: 'var(--radius)'
+         default: "medium",
       },
       zIndex: {
          type: String,
-         default: '500'
+         default: "500",
       },
       closeButton: {
          type: Boolean,
-         default: true
-      }
+         default: true,
+      },
    },
 
    computed: {
-      modalOutlayerClasses(): string[] {
-         const list = ['app-modal-outlayer']
+      modalOutlayerClasses() {
+         const list = [
+            "app-modal-outlayer",
+            "xstack",
+            "justify-center",
+            "align-center",
+            "cover-viewport",
+         ];
 
          if (this.transparent) {
-            list.push('transparent')
+            list.push("transparent");
          }
 
-         return list
+         return list;
       },
       modalOutlayerStyle() {
          return {
-            'z-index': this.zIndex
+            "z-index": this.zIndex,
+         };
+      },
+      modalClasses() {
+         const list = ["app-modal", "shadow-large", "pos-rel"];
+
+         if (this.autoresize) {
+            list.push("auto-resize");
          }
+
+         list.push("radius-" + this.radius);
+
+         return list;
       },
       modalStyle() {
          return {
             width: this.width,
-            borderRadius: this.radius
-         }
+         };
       },
       modalTopStyle() {
          return {
-            minHeight: this.minheight
-         }
+            minHeight: this.minheight,
+         };
       },
       modalBodyStyle() {
          return {
             height: this.height,
-         }
+         };
+      },
+      modalBodyClasses() {
+         const list = [
+            "app-modal-body", 
+            "pos-rel", 
+            "overflow-auto",
+            "regular-scroll"
+         ];
+
+         list.push("pad-x-" + this.gap);
+
+         return list;
       },
    },
 
    data() {
       return {
-         modalId: '',
-         modalAriaLabel: ''
-      }
+         modalId: "",
+         modalAriaLabel: "",
+      };
    },
-
    created() {
-      this.modalId = generateElementId('instance')
-      this.modalAriaLabel = 'app-modal-' + this.modalId
+      this.modalId = generateElementId("instance");
+      this.modalAriaLabel = "app-modal-" + this.modalId;
    },
-
    methods: {
-      leave(el: Element, done: Function) {
-         console.log("LEAVE", el)
-         done()
-      },
-      handleBlurAction(event: MouseEvent) {
-         const target = (<Element>event.target)
+      /** Handle outlayer click action */
+      handleBlurAction(event) {
+         const target = event.target;
 
-         if (target.getAttribute('aria-label') === this.modalAriaLabel) {
-            this.$emit('blur', event)
+         if (target.getAttribute("aria-label") === this.modalAriaLabel) {
+            this.$emit("blur", event);
          }
       },
-      handleCloseAction(event: MouseEvent) {
-         this.$emit('close', event)
-      }
-   }
-})
+
+      /** Handle close button action */
+      handleCloseAction(event) {
+         this.$emit("close", event);
+      },
+   },
+});
 </script>
 
-<style lang="scss" scoped>
-@import "../scss/scroll";
-
+<style scoped>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
+   transition: opacity 280ms ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+   opacity: 0;
 }
 
 @keyframes modal-create-anim {
    from {
       opacity: 0;
-      transform: scale(0.7) translateY(-12px);
+      transform: scale(0.9) translateY(-18px);
    }
    to {
       opacity: 1;
@@ -173,70 +204,81 @@ export default defineComponent({
    }
 }
 
+@media (max-width: 480px) {
+   @keyframes modal-create-anim {
+      from {
+         opacity: 0;
+         transform: translateY(80px);
+      }
+      to {
+         opacity: 1;
+         transform: translateY(0);
+      }
+   }
+}
+
 .app-modal-outlayer {
-   position: fixed;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   top: 0;
-   left: 0;
-   bottom: 0;
-   right: 0;
    background-color: rgba(0, 0, 0, 0.23);
    z-index: 500;
 }
 .app-modal-outlayer.transparent {
    background-color: transparent;
 }
-
 .app-modal {
-   position: relative;
    background-color: var(--background);
-   box-shadow: var(--shadow-large);
    animation-name: modal-create-anim;
    animation-duration: 280ms;
+}
+.app-modal-top .app-modal-header {
+   display: block;
+}
+.app-modal-top .app-modal-header .modal-title {
+   font-weight: 600;
+}
+.app-modal-top .app-modal-actions {
+   top: var(--gap-half);
+   right: var(--gap-half);
+}
+.app-modal-top .app-modal-actions .app-icon-button {
+   margin: 0;
+}
+.app-modal-body {
+   min-height: 120px;
+   transition: height 260ms;
+}
+.app-modal-footer {
+   padding-top: var(--gap-quarter);
+   bottom: var(--gap-half);
+   left: var(--gap);
+   right: var(--gap);
+}
 
-   .app-modal-top {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+body.dark .app-modal-outlayer {
+   background-color: rgba(24, 24, 24, 0.45);
+}
+body.dark .app-modal {
+   background-color: var(--background);
+}
 
-      .app-modal-header {
-         display: block;
-
-         .modal-title {
-            margin: 0;
-            font-weight: 600;
-         }
-      }
-
-      .app-modal-actions {
-         display: flex;
-         position: absolute;
-         align-items: center;
-         top: var(--gap-half);
-         right: var(--gap-half);
-
-         .app-icon-button {
-            margin: 0;
-         }
-      }
+@media (max-width: 480px) {
+   .fade-enter-active .app-modal,
+   .fade-leave-active .app-modal {
+      transition: all 240ms ease;
+   }
+   .fade-enter-from .app-modal,
+   .fade-leave-to .app-modal {
+      transform: translateY(46px);
    }
 
-   .app-modal-body {
-      @include regular-scrollbar();
-      position: relative;
-      min-height: 120px;
-      overflow: auto;
-      transition: height 260ms;
+   .app-modal-outlayer {
+      align-items: flex-end;
    }
-
-   .app-modal-footer {
-      position: absolute;
-      padding-top: var(--gap-quarter);
-      bottom: var(--gap-half);
-      left: var(--gap);
-      right: var(--gap);
+   .app-modal {
+      width: 100% !important;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      /* border-top-left-radius: 25px;
+      border-top-right-radius: 25px; */
    }
 }
 </style>

@@ -1,86 +1,113 @@
 <template>
-   <div class="app-preview-link hide-under-phone xstack radius-medium align-center">
-      <a class="preview-link-text xstack align-center" :href="link" target="_blank">{{ link }}</a>
+   <div :class="previewLinkClasses">
+      <a
+         :class="previewLinkTextClasses"
+         :href="$livePageUrl"
+         target="_blank">{{ $livePageUrl }}</a>
 
-      <div class="link-clipboard-action xstack justify-center align-center" @click="copyToClipboard">
-         <ClipboardIcon />
+      <div :class="linkClipboardActionClasses" @click="copyToClipboard">
+         <clipboard-icon />
       </div>
    </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useStore } from 'vuex'
-import { toRemoteUrl } from '@/utils/common'
-import toast from '@/utils/toast'
-import ClipboardIcon from '@/components/Icons/clipboard.vue'
+<script>
+import Vue from "vue";
+import ClipboardIcon from "../../assets/vue-icons/clipboard.vue";
 
-export default defineComponent({
-   name: 'PreviewLink',
+export default Vue.extend({
+   name: "PreviewLink",
    components: {
-      ClipboardIcon
+      "clipboard-icon": ClipboardIcon,
    },
-
-   setup() {
-      const store = useStore()
-      const user = store.getters['user/user']
-      const link = computed(() => toRemoteUrl('/' + user.username))
-
-      return { link }
+   computed: {
+      previewLinkClasses() {
+         return [
+            'app-preview-link',
+            'hide-under-phone',
+            'xstack',
+            'radius-medium',
+            'align-center',
+            'color-inherit',
+         ]
+      },
+      previewLinkTextClasses() {
+         return [
+            'preview-link-text',
+            'h-100',
+            'xstack',
+            'align-center',
+            'pad-x-medium',
+            'color-inherit'
+         ]
+      },
+      linkClipboardActionClasses() {
+         return [
+            'link-clipboard-action',
+            'h-100',
+            'xstack',
+            'justify-center',
+            'align-center',
+            'cursor-pointer'
+         ]
+      }
    },
-
    methods: {
       copyToClipboard() {
          try {
-            window.navigator.clipboard.writeText(this.link)
-            toast.success("Copied to clipboard")
+            window.navigator.clipboard.writeText(this.$livePageUrl);
+            this.$toast.success("Copied to clipboard");
          } catch (error) {
-            toast.error("Can't access your clipboard")
+            this.$toast.error("Can't access your clipboard");
          }
       }
    }
-})
+});
 </script>
 
-<style lang="scss">
-@import "../../scss/mixins/scale";
-
+<style>
 .app-preview-link {
-   color: inherit;
-   height: 32pt;
-   font-size: 11.2pt;
-   border: 1px solid var(--accents-2);
+   height: 28pt;
+   font-size: 10.2pt;
    background-color: var(--background);
+   border: 1px solid var(--accents-2);
 }
-.preview-link-text {
-   height: 100%;
-   border-top-left-radius: inherit;
-   border-bottom-left-radius: inherit;
-   padding-left: var(--gap-half);
-   padding-right: var(--gap-quarter);
-   color: inherit;
-   transition: background-color 120ms linear;
-
-   &:hover {
-      background-color: var(--accents-1);
+@media (max-width: 480px) {
+   .app-preview-link {
+      display: none;
    }
 }
+
+.preview-link-text {
+   border-top-left-radius: inherit;
+   border-bottom-left-radius: inherit;
+
+   transition: background-color 120ms linear;
+}
+.preview-link-text:hover {
+   background-color: var(--accents-1);
+}
 .link-clipboard-action {
-   cursor: pointer;
-   height: 100%;
    width: 28pt;
    border-top-right-radius: inherit;
    border-bottom-right-radius: inherit;
    background-color: transparent;
    transition: background-color 120ms linear;
+}
+.link-clipboard-action:hover {
+   background-color: var(--foreground);
+   color: var(--primary-fr);
+}
+.link-clipboard-action .app-icon {
+   width: 11pt;
+   height: 11pt;
+}
 
-   &:hover {
-      background-color: var(--foreground);
-      color: var(--primary-fr);
-   }
-   .app-icon {
-      width: 11pt;
-      height: 11pt;
-   }
+body.dark .app-preview-link {
+   background-color: transparent;
+}
+body.dark .preview-link-text:hover,
+body.dark .link-clipboard-action:hover {
+   background-color: var(--accents-2);
 }
 </style>

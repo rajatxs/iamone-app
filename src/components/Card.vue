@@ -1,10 +1,11 @@
 <template>
-   <div class="app-card">
-
+   <div class="app-card w-auto ystack margin-y-large radius-medium shadow-small">
       <!-- Card header -->
-      <div v-if="title || $slots['controls']" class="card-header">
-         <div class="card-title">
-            <h4 class="title-text">{{ title }}</h4>
+      <div
+         v-if="title || $slots['controls']"
+         class="card-header pad-x-large xstack justify-space-between align-center">
+         <div class="card-title margin-0">
+            <h4 class="title-text margin-0">{{ title }}</h4>
          </div>
 
          <div class="card-controls">
@@ -24,69 +25,45 @@
    </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script>
+import Vue from "vue";
 
-export default defineComponent({
-   name: 'AppCard',
+export default Vue.extend({
+   name: "AppCard",
    props: {
       title: {
          type: String,
-         required: false
+         required: false,
       },
       gap: {
          type: String,
-         default: 'medium'
-      }
+         default: "medium",
+      },
    },
    computed: {
       bodyClasses() {
-         const list = ['card-body']
-         list.push('gap__' + this.gap)
+         const list = ["card-body"];
 
-         return list
-      }
-   }
-})
+         list.push("pad-" + this.gap);
+
+         return list;
+      },
+   },
+});
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .app-card {
-   display: flex;
-   flex-direction: column;
-   margin-top: var(--gap);
-   margin-bottom: var(--gap);
-   border-radius: var(--radius);
-   // box-shadow: rgb(0, 0, 0 / 12%) 0px 8px 16px;
-   box-shadow: var(--shadow-small);
    background-color: var(--background);
 }
-
 .card-header {
-   display: flex;
-   justify-content: space-between;
-   padding-left: var(--gap);
-   padding-right: var(--gap);
    border-top-left-radius: inherit;
    border-top-right-radius: inherit;
-   align-items: center;
    height: 48px;
    border-bottom: 1px solid var(--accents-2);
-
-   .card-title .title-text {
-      margin: 0;
-   }
 }
 
-.card-body {
-   &.gap__small {
-      padding: var(--gap-quarter);
-   }
-   &.gap__medium {
-      padding: var(--gap-half);
-   }
-   &.gap__large {
-      padding: var(--gap);
-   }
+body.dark .card-header {
+   border-bottom-color: var(--accents-1);
 }
 </style>

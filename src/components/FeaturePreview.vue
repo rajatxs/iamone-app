@@ -1,52 +1,53 @@
 <template>
-   <div class="feature-preview">
-      <div class="feature-icon">
-         <img 
-            class="feature-icon-image" 
-            :src="icon"
-            :alt="title" />
+   <div class="feature-preview h-100 ystack align-center">
+      <div class="feature-icon xstack justify-center align-center rounded">
+         <img class="feature-icon-image" :src="icon" :alt="title" />
       </div>
 
-      <div class="feature-info">
-         <div class="feature-name"><h3>{{ title }}</h3></div>
+      <div class="feature-info text-center">
+         <div class="feature-name">
+            <h3>{{ title }}</h3>
+         </div>
          <div v-if="desc" class="feature-desc">{{ desc }}</div>
       </div>
    </div>
 </template>
 
-<script setup lang="ts">
-import { defineProps } from 'vue'
+<script>
+import Vue from "vue";
 
-defineProps<{ icon: string, title: string, desc?: string }>()
+export default Vue.extend({
+   name: "AppFeaturePreview",
+   props: {
+      icon: {
+         type: String,
+         required: true,
+      },
+      title: {
+         type: String,
+         required: true,
+      },
+      desc: {
+         type: String,
+         required: false,
+      },
+   },
+});
 </script>
 
-<style lang="scss">
+<style>
 .feature-preview {
-   display: flex;
-   flex-direction: column;
-   width: 100%;
-   height: 100%;
    margin-top: 42pt;
-   align-items: center;
-
-   .feature-icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background-color: transparent;
-
-      .feature-icon-image {
-         width: 70px;
-         height: 70px;
-      }
-   }
-
-   .feature-info {
-      margin-top: 6pt;
-      text-align: center;
-   }
+}
+.feature-icon {
+   width: 110px;
+   height: 110px;
+}
+.feature-icon .feature-icon-image {
+   width: 70px;
+   height: 70px;
+}
+.feature-info {
+   margin-top: 6pt;
 }
 </style>

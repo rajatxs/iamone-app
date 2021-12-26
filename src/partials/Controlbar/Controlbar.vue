@@ -1,157 +1,159 @@
 <template>
-   <div class="app-controlbar">
-      <div class="controlbar-top">
-         <AppLogo :size="80" />
-         <PreviewLink />
+   <div class="app-controlbar h-100 overflow-hidden">
+      <div :class="controlbarTopClasses">
+         <app-logo size="25px" />
+         <app-preview-link />
 
          <div class="controlbar-navigation xstack gap-medium">
             <app-nav-menu-icon icon="qr" @click="SHOW_QRCODE_MODAL(true)"></app-nav-menu-icon>
             <app-nav-menu-icon icon="share-alt" @click="SHOW_SHARE_MODAL(true)"></app-nav-menu-icon>
-            <SessionMenu />
+            <app-session-menu />
          </div>
       </div>
 
-      <div class="control-sector-tab">
-         <router-link 
-            v-for="tab in controlSectorTabs" 
+      <div :class="controlSectorTabClasses">
+         <router-link
+            v-for="tab in controlSectorTabs"
             :to="tab.path"
-            :key="tab.path" 
+            :key="tab.path"
+            :exact="true"
+            :class="controlSectorTabItem"
             active-class="active"
-            role="button" 
-            class="sector-tab-item">
+            role="button">
             <span class="label">{{ tab.label }}</span>
          </router-link>
-      </div> 
+      </div>
 
-      <div class="control-sector-area">
+      <div class="control-sector-area regular-scroll">
          <router-view></router-view>
       </div>
    </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { createNamespacedHelpers } from 'vuex'
-import AppLogo from './Logo.vue'
+<script>
+import Vue from "vue";
+import { createNamespacedHelpers } from "vuex";
+import AppNavMenuIcon from '../../components/NavMenuIcon.vue'
 import SessionMenu from './SessionMenu.vue'
 import PreviewLink from './PreviewLink.vue'
 
-interface ControlSectorTab {
-   label: string,
-   path: string
-}
+const { mapMutations: mapUIMutations } = createNamespacedHelpers("ui");
 
-const { mapMutations: mapUIMutations } = createNamespacedHelpers('ui')
-
-export default defineComponent({
-   name: 'AppControlbar',
-
+export default Vue.extend({
+   name: "AppControlbar",
    components: {
-      AppLogo,
-      SessionMenu,
-      PreviewLink
+      'app-nav-menu-icon': AppNavMenuIcon,
+      'app-session-menu': SessionMenu,
+      'app-preview-link': PreviewLink
    },
-
    data() {
       return {
-         controlSectorTabs: <ControlSectorTab[]>[
+         controlSectorTabs: [
             {
-               label: 'Profile',
-               path: '/'
+               label: "Profile",
+               path: "/",
             },
             {
-               label: 'Design',
-               path: '/design'
+               label: "Design",
+               path: "/design",
             },
             {
-               label: 'Analytics',
-               path: '/analytics'
+               label: "Analytics",
+               path: "/analytics",
             },
             {
-               label: 'Settings',
-               path: '/settings'
-            }
+               label: "Settings",
+               path: "/settings",
+            },
+         ]
+      };
+   },
+   computed: {
+      controlbarTopClasses() {
+         return [
+            'controlbar-top',
+            'pad-y-large',
+            'xstack', 
+            'align-center', 
+            'justify-space-between'
+         ];
+      },
+      controlSectorTabClasses() {
+         return [
+            'control-sector-tab',
+            'w-100',
+            'xstack',
+            'justify-center'
+         ]
+      },
+      controlSectorTabItem() {
+         return [
+            'sector-tab-item',
+            'xstack',
+            'justify-center',
+            'align-center',
+            'cursor-pointer'
          ]
       }
    },
 
-   methods: mapUIMutations([
-      'SHOW_QRCODE_MODAL', 
-      'SHOW_SHARE_MODAL'
-   ])
-})
+   methods: mapUIMutations(["SHOW_QRCODE_MODAL", "SHOW_SHARE_MODAL"])
+});
 </script>
 
-<style lang="scss" scoped>
-@import "../../scss/const";
-@import "../../scss/scroll";
-
+<style scoped>
 .app-controlbar {
-   width: $controlbar-area-width;
-   height: 100%;
-   background-color: #FCFCFC;
-   overflow-x: hidden;
-   overflow-y: hidden;
-
-   .control-sector-tab {
-      display: flex;
-      width: 100%;
-      height: 32pt;
-      gap: 28pt;
-      justify-content: center;
-
-      .sector-tab-item {
-         display: flex;
-         cursor: pointer;
-         justify-content: center;
-         align-items: center;
-         border-bottom-width: 2px;
-         border-bottom-style: solid;
-         border-bottom-color: transparent;
-         box-sizing: border-box;
-         transition: border-bottom-color 120ms linear;
-
-         .label {
-            color: var(--accents-5);
-         }
-
-         &:hover {
-            border-bottom-color: var(--accents-2);
-
-            .label {
-               color: var(--accents-6);
-            }
-         }
-
-         &.active {
-            border-bottom-width: 3px;
-            border-bottom-color: var(--primary);
-
-            .label {
-               color: var(--foreground);
-            }
-         }
-      }
-   }
-
-   .control-sector-area {
-      @include regular-scrollbar();
-      height: calc(100% - 98pt);
-      overflow-y: auto;
-   }
+   width: 60vw;
+   background-color: #fcfcfc;
+}
+.controlbar-top {
+   margin-left: 42pt;
+   margin-right: 42pt;
+}
+.app-controlbar .control-sector-tab {
+   height: 30pt;
+   gap: 28pt;
+}
+.app-controlbar .control-sector-tab .sector-tab-item {
+   border-bottom-width: 2px;
+   border-bottom-style: solid;
+   border-bottom-color: transparent;
+   box-sizing: border-box;
+   transition: border-bottom-color 120ms linear;
+}
+.app-controlbar .control-sector-tab .sector-tab-item .label {
+   color: var(--accents-5);
+}
+.app-controlbar .control-sector-tab .sector-tab-item:hover {
+   border-bottom-color: var(--accents-2);
+}
+.app-controlbar .control-sector-tab .sector-tab-item:hover .label {
+   color: var(--accents-6);
+}
+.app-controlbar .control-sector-tab .sector-tab-item.active {
+   border-bottom-width: 3px;
+   border-bottom-color: var(--primary);
+}
+.app-controlbar .control-sector-tab .sector-tab-item.active .label {
+   color: var(--foreground);
+}
+.app-controlbar .control-sector-area {
+   height: calc(100% - 98pt);
+   overflow-y: auto;
 }
 
-.controlbar-top {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   margin-left: 28pt;
-   margin-right: 28pt;
+body.dark .app-controlbar {
+   background-color: var(--accents-1);
 }
 
 @media screen and (max-width: 1060px) {
    .app-controlbar {
       width: 100%;
+   }
+
+   .controlbar-top {
+      margin-left: var(--gap);
+      margin-right: var(--gap);
    }
 }
 </style>

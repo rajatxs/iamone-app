@@ -1,41 +1,31 @@
 <template>
-   <Teleport to="#universal-area">
-      <AuthModal v-if="viewAuthModal" />
-
-      <QRCodeModal
+   <div class="app-universal-area">
+      <qrcode-modal
          v-if="viewQRCodeModal" 
          @close="SHOW_QRCODE_MODAL(false)" />
 
-      <ShareLinkModal
+      <share-link-modal
          v-if="viewShareModal"
          @close="SHOW_SHARE_MODAL(false)" />
-
-      <UpdatePasswordModal 
-         v-if="viewUpdatePasswordModal"
-         @close="SHOW_UPDATE_PASSWORD_MODAL(false)" />
-   </Teleport>
+   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script>
+import Vue from 'vue'
 import { createNamespacedHelpers } from 'vuex'
 import QRCodeModal from './Modals/QRCodeModal.vue'
 import ShareLinkModal from "./Modals/ShareLinkModal.vue"
-import AuthModal from './Modals/AuthModal/AuthModal.vue'
-import UpdatePasswordModal from "./Modals/UpdatePasswordModal.vue"
 
 const { 
    mapState: mapUIState, 
    mapMutations: mapUIMutations 
 } = createNamespacedHelpers('ui')
 
-export default defineComponent({
+export default Vue.extend({
    name: 'AppUniversalArea',
    components: {
-      QRCodeModal,
-      ShareLinkModal,
-      AuthModal,
-      UpdatePasswordModal
+      'qrcode-modal': QRCodeModal,
+      'share-link-modal': ShareLinkModal,
    },
    computed: mapUIState([
       'viewAuthModal',

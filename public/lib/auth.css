@@ -1,0 +1,82 @@
+.auth__container {
+   width: 380pt;
+}
+
+.auth-loader {
+   width: 14pt;
+   height: 14pt;
+}
+
+.auth__logo {
+   width: auto;
+   height: 24pt;
+}
+
+.auth__logo-image {
+   width: 100%;
+   height: 100%;
+}
+
+.auth__action-switch {
+   width: 190px;
+   height: 30px;
+   border-radius: 25px;
+   margin-top: 20pt;
+   border: 1px solid var(--accents-2);
+}
+
+.auth__action-switch-button {
+   display: flex;
+   outline: none;
+   align-items: center;
+   border: none;
+   justify-content: center;
+   flex: 1;
+   height: inherit;
+   border-radius: inherit;
+   font-size: 92%;
+   background-color: transparent;
+   color: inherit;
+   cursor: pointer;
+   transition: background-color 40ms linear;
+}
+
+.auth__action-switch-button:hover {
+   background-color: var(--accents-1);
+}
+
+.auth__action-switch-button.active {
+   font-weight: 500;
+   background-color: var(--accents-2);
+   background-image: linear-gradient(
+      270deg,
+      var(--foreground) 0%,
+      var(--foreground-light) 100%
+   );
+   color: var(--foreground);
+}
+
+.auth__activity-header {
+   margin-top: 24pt;
+   padding-bottom: var(--gap-half);
+   text-align: center;
+}
+
+.auth__controls {
+   width: 250pt;
+}
+
+@media (max-width: 480px) {
+   .auth__container {
+      border-radius: 0;
+      height: 100%;
+      width: 100%;
+   }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+   .auth__container {
+      border-radius: 0;
+      height: 100%;
+   }
+}

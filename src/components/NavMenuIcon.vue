@@ -1,50 +1,46 @@
 <template>
-   <div class="navmenu-icon xstack justify-center align-center">
+   <div class="navmenu-icon xstack justify-center align-center cursor-pointer rounded" @click="$emit('click')">
       <component :is="iconComponent"></component>
    </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, markRaw } from 'vue'
+<script>
+import Vue from "vue";
 
-export default defineComponent({
-   name: 'NavMenuIcon',
+export default Vue.extend({
+   name: "NavMenuIcon",
    props: {
       icon: {
          type: String,
-         required: true
-      }
+         required: true,
+      },
    },
    data() {
       return {
-         iconComponent: null
-      }
+         iconComponent: null,
+      };
    },
    async created() {
-      this.iconComponent = markRaw((await import(`./Icons/${this.icon}.vue`)).default)
-   }
-})
+      this.iconComponent = (
+         await import(`../assets/vue-icons/${this.icon}.vue`)
+      ).default;
+   },
+});
 </script>
 
-<style lang="scss">
+<style scoped>
 .navmenu-icon {
    position: relative;
-   padding: 2pt;
-   width: 25pt;
-   height: 25pt;
-   cursor: pointer;
-   border-radius: 50%;
+   padding: 6pt;
+   width: 16pt;
+   height: 16pt;
    box-sizing: content-box;
    z-index: 500;
-   border-width: 1px;
-   border-style: solid;
-   border-color: transparent;
    background-color: transparent;
    color: var(--accents-5);
    transition: background-color 80ms linear;
-   
-   &:hover {
-      background-color: var(--accents-2);
-   }
+}
+.navmenu-icon:hover {
+   background-color: var(--accents-2);
 }
 </style>

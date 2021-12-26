@@ -1,48 +1,52 @@
 <template>
    <app-card title="Risk zone" gap="large">
       <template #body>
-         <p>Deleting your account permanently deletes your page and all your data.</p>
+         <p>
+            Deleting your account permanently deletes your page and all your
+            data.
+         </p>
 
          <app-button
-            background="red"
-            size="medium"
-            @click="handleAccountDeleteAction">
+            color="error"
+            size="small"
+            :loading="loading"
+            @click="deleteUserAccount">
             Delete Account
          </app-button>
       </template>
    </app-card>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { createNamespacedHelpers } from 'vuex'
-import toast from '@/utils/toast'
+<script>
+import Vue from "vue";
+import { clearAuthTokens, redirectToLoginPage } from '../../utils/common'
 
-const { mapActions: mapUserActions } = createNamespacedHelpers('user')
-
-export default defineComponent({
-   name: 'RiskZone',
-
+export default Vue.extend({
+   name: "RiskZone",
+   data() {
+      return {
+         loading: false
+      }
+   },
    methods: {
-      ...mapUserActions(['deleteAccount']),
-
-      async handleAccountDeleteAction() {
-         const perm = confirm("Confirm again to proceed account deletion")
+      async deleteUserAccount() {
+         const perm = confirm("Confirm again to proceed account deletion");
 
          if (!perm) {
-            return
+            return;
          }
+         this.loading = true;
 
          try {
-            await this.deleteAccount()
-            toast.success({
-               text: "Your account has no longer exists",
-               duration: 3800
-            })
-         } catch (error: any) {
-            toast.error({ text: error.response.data.message })
+            const response = await this.axios.delete("/user/account");
+            this.$toast.success(response.data.message);
+            clearAuthTokens();
+            redirectToLoginPage();
+         } catch (error) {
+            this.$toast.error(error.response.data.message);
          }
-      }
-   }
-})
+         this.loading = false;
+      },
+   },
+});
 </script>

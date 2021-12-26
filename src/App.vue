@@ -1,104 +1,85 @@
 <template>
-  <template v-if="isDataLoaded">
-    <AppControlbar />
-    <AppMockup name="default-mobile" />
-  </template>
+   <div id="app">
+      <div v-if="isUserLoaded" class="activity-area xstack h-100 w-100">
+         <app-controlbar v-if="isUserLoaded" />
+         <app-mockup v-if="viewPreview && isPageConfigLoaded" />
+      </div>
 
-  <div v-else class="universal-data-loading">
-    <app-loader class="black universal-loader" />
-    <h3 class="universal-data-loading-message">Just a moment</h3>
-  </div>
+      <div v-else class="universal-data-loading">
+         <img src="/img/iamone-gray.svg" width="120" alt="iamone" />
+      </div>
 
-  <UniversalArea />
+      <app-universal-area />
+   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { api } from './utils/axios'
-import { mapState, createNamespacedHelpers } from 'vuex'
-import AppControlbar from './partials/Controlbar/Controlbar.vue'
-import AppMockup from './partials/Mockups/Mockup.vue'
-import UniversalArea from './partials/UniversalArea.vue'
-import commonMixin from './mixins/common'
+<script>
+import Vue from "vue";
+import AppControlbar from "./partials/Controlbar/Controlbar.vue";
+import AppMockup from "./partials/Mockups/Mockup.vue";
+import UniversalArea from './partials/UniversalArea.vue';
 
-const { 
-  mapGetters: mapAuthGetters, 
-  mapActions: mapAuthActions 
-} = createNamespacedHelpers('auth')
-
-export default defineComponent({
-  name: 'App',
-  mixins: [commonMixin],
-  components: {
-    AppControlbar,
-    AppMockup,
-    UniversalArea
-  },
-  data() {
-    return {
-      isDataLoaded: false
-    }
-  },
-  computed: {
-    ...mapState(['showQRCodeModal']),
-    ...mapAuthGetters(['authStatus'])
-  },
-  created() {
-    this.signInFromSavedTokens()
-  },
-  watch: {
-    async authStatus(newStatus: boolean) {
-      if (newStatus) {
-        try {
-
-          api.interceptors.request.use((config) => {
-            // @ts-ignore
-            config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')
-            
-            return config
-          })
-
-          // @ts-ignore
-          await this.loadAllData()
-          this.isDataLoaded = true
-        } catch (error) {
-          console.error("Something went wrong", error)
-        }
+export default Vue.extend({
+   name: "App",
+   components: {
+      "app-controlbar": AppControlbar,
+      "app-mockup": AppMockup,
+      'app-universal-area': UniversalArea
+   },
+   computed: {
+      isUserLoaded() {
+         return this.$store.getters['user/loaded'];
+      },
+      isPageConfigLoaded() {
+         return this.$store.getters['pageConfig/loaded'];
+      },
+      viewPreview() {
+         return this.$store.state.ui.viewPreview;
       }
-    }
-  },
-  methods: mapAuthActions(['signInFromSavedTokens'])
-})
+   },
+   async mounted() {
+      await this.$store.dispatch('loadTemplateData');
+      
+      window.onresize = this.handleWindowResizeEvent;
+      this.handleWindowResizeEvent();
+   },
+   methods: {
+      handleWindowResizeEvent() {
+         if (window.innerWidth < 1060 && this.viewPreview) {
+            this.$store.commit('ui/SHOW_PREVIEW', false);
+         } else if (window.innerWidth > 1060 && !this.viewPreview) {
+            this.$store.commit('ui/SHOW_PREVIEW', true);
+         }
+      }
+   }
+});
 </script>
 
-<style lang="scss">
+<style>
 #app {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  background-color: var(--background);
-
-  .universal-data-loading {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.8);
-
-    .universal-loader {
-      width: 37pt;
-      height: 37pt;
-    }
-
-    .universal-data-loading-message {
-      margin-top: 28pt;
-      line-height: 2.6rem;
-    }
-  }
+   display: flex;
+   width: 100%;
+   height: 100%;
+   background-color: var(--background);
+}
+.universal-data-loading {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background-color: rgba(255, 255, 255, 0.8);
+}
+.universal-loader {
+   width: 37pt;
+   height: 37pt;
+}
+.universal-data-loading-message {
+   margin-top: 28pt;
+   line-height: 2.6rem;
 }
 </style>

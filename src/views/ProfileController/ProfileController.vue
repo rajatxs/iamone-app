@@ -1,26 +1,24 @@
 <template>
-   <app-view name="profile">
-      <ProfileMetaInfoCard />
-      <SocialLinkCard />
-      <CustomLinkCard />
-
+   <app-controller-view name="profile">
+      <profile-meta-info-card />
+      <social-card />
+      <links-card />
       <br />
-   </app-view>
+   </app-controller-view>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import ProfileMetaInfoCard from "./ProfileMetaInfoCard.vue"
-import SocialLinkCard from "./SocialLinkCard.vue"
-import CustomLinkCard from "./CustomLinkCard.vue"
+<script>
+import Vue from "vue";
+import ProfileMetaInfoCard from "./ProfileMetaInfoCard.vue";
+import SocialCard from "./SocialCard.vue";
+import LinksCard from "./LinksCard.vue";
 
-export default defineComponent({
-   name: 'ProfileController',
-
+export default Vue.extend({
+   name: "ProfileController",
    components: {
-      ProfileMetaInfoCard,
-      SocialLinkCard,
-      CustomLinkCard
-   }
-})
+      "profile-meta-info-card": ProfileMetaInfoCard,
+      "social-card": SocialCard,
+      "links-card": LinksCard
+   },
+});
 </script>

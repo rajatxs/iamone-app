@@ -1,125 +1,97 @@
 <template>
-   <button 
-      :class="buttonClasses" 
+   <button
+      :type="role"
+      :class="buttonClasses"
       :aria-expanded="expanded"
-      :disabled="disabled">
-
-      <app-loader v-if="loading" />
+      :disabled="disabled"
+      @click="$emit('click')"
+   >
+      <app-loader v-if="loading" color="light" />
       <slot v-else></slot>
    </button>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script>
+import Vue from "vue";
 
-export default defineComponent({
-   name: 'AppButton',
+export default Vue.extend({
+   name: "AppButton",
    props: {
+      role: {
+         type: String,
+         default: "button",
+      },
       type: {
          type: String,
-         default: 'filled'
+         default: "filled",
       },
       loading: {
          type: Boolean,
-         default: false
+         default: false,
       },
       expanded: {
          type: Boolean,
-         default: false
+         default: false,
       },
       gradient: {
          type: String,
-         required: false
+         required: false,
       },
-      background: {
+      color: {
          type: String,
-         required: false
+         default: "foreground",
       },
-      text: {
-         type: String,
-         require: false
-      },
-      disabled: {
+      nogap: {
          type: Boolean,
          default: false
       },
+      text: {
+         type: String,
+         required: false,
+      },
+      disabled: {
+         type: Boolean,
+         default: false,
+      },
       size: {
          type: String,
-         default: 'medium'
-      }
+         default: "medium",
+      },
    },
    computed: {
       buttonClasses() {
-         const list = ['app-button']
-         
-         list.push('type__' + this.type)
-         list.push('size__' + this.size)
+         const list = [
+            "app-button",
+            "inline-xstack",
+            "justify-center",
+            "align-center",
+            "margin-x-small",
+            "margin-y-small",
+            "pad-x-large",
+            "radius-medium",
+         ];
+
+         list.push("type__" + this.type);
+         list.push("size__" + this.size);
 
          if (this.gradient) {
-            list.push('bg-gradient-' + this.gradient)
+            list.push("bg-gradient-" + this.gradient);
          }
 
-         if (this.background) {
-            list.push('bg-' + this.background)
+         if (this.color) {
+            list.push("bg-" + this.color);
          }
 
          if (this.text) {
-            list.push('text-' + this.text)
+            list.push("text-" + this.text);
          }
 
-         return list
-      }
-   }
-})
+         if (this.nogap) {
+            list.push('nomargin');
+         }
+
+         return list;
+      },
+   },
+});
 </script>
-
-<style lang="scss">
-.app-button {
-   display: inline-flex;
-   width: auto;
-   height: 48px;
-   flex-direction: row;
-   justify-content: center;
-   align-items: center;
-   padding-left: var(--gap);
-   padding-right: var(--gap);
-   margin: 0;
-   font-size: 1rem;
-   border: 0;
-   border-radius: var(--radius);
-   cursor: pointer;
-   background-color: var(--foreground);
-   color: var(--background);
-   transition: transform 140ms ease, box-shadow 160ms ease;
-   transform: translateY(0);
-
-   &:hover {
-      box-shadow: var(--shadow-medium);
-   }
-
-   &:active {
-      transform: translateY(-5px);
-   }
-}
-.app-button:disabled {
-   background-color: var(--accents-1);
-   color: var(--accents-4);
-   pointer-events: none;
-}
-.app-button.type__text {
-   background-color: transparent;
-   color: auto;
-}
-.app-button.size__small {
-   min-width: 80px;
-   height: 38px;
-   font-size: 14px;
-}
-.app-button[aria-expanded='true'] {
-   width: calc(100% - var(--gap-half));
-   margin-left: 0;
-   margin-right: 0;
-   padding-left: 0;
-   padding-right: 0;
-}
-</style>

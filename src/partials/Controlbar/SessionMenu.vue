@@ -1,134 +1,179 @@
 <template>
-   <div class="session-menu">
-      <div class="menu-icon" @click="toggleMenu">
-         <img class="menu-icon-image" :src="toUrl('/_/api/user/image/', user.image)" />
+   <div class="session-menu pos-rel">
+      <div :class="menuIconClasses" @click="toggleMenu">
+         <img :class="menuIconImageClasses" :src="user.image | USER_IMAGE" />
       </div>
-      <div v-if="showMenu" class="menu-area">
-         <div class="menu-item" @click="gotoHome">
-            <HomeCircleIcon />
+      <div v-if="showMenu" :class="menuAreaClasses">
+         <a :href="$livePageUrl" target="_blank" :class="menuRegularItemClasses" @click="gotoHome">
+            <window-open-icon />
+            <span class="label">Open live page</span>
+         </a>
+         <div :class="menuRegularItemClasses" @click="gotoHome">
+            <home-circle-icon />
             <span class="label">Home</span>
          </div>
-         <div class="menu-item text-red" @click="logout">
-            <LogoutCircleIcon />
+         <div :class="menuRegularItemClasses" @click="toggleTheme">
+            <adjust-icon />
+            <span class="label">{{ themeTogglerLabel }}</span>
+         </div>
+         <div :class="menuDangerItemClasses" @click="logout">
+            <logout-circle-icon />
             <span class="label">Logout</span>
          </div>
       </div>
-      <div v-if="showMenu" class="menu-blind-area" @mousedown.self="toggleMenu"></div>
+      <div v-if="showMenu" :class="menuBlindAreaClasses" @mousedown.self="toggleMenu"></div>
    </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { createNamespacedHelpers } from 'vuex'
-import { toUrl } from '../../utils/common'
-import HomeCircleIcon from '../../components/Icons/home-circle.vue'
-import LogoutCircleIcon from '../../components/Icons/log-out-circle.vue'
+<script>
+import Vue from "vue";
+import WindowOpenIcon from "../../assets/vue-icons/window-open.vue";
+import HomeCircleIcon from "../../assets/vue-icons/home-circle.vue";
+import LogoutCircleIcon from "../../assets/vue-icons/log-out-circle.vue";
+import AdjustIcon from "../../assets/vue-icons/adjust.vue";
 
-const { mapGetters: mapUserGetters } = createNamespacedHelpers('user')
-const { mapActions: mapAuthActions } = createNamespacedHelpers('auth')
-
-export default defineComponent({
-   name: 'SessionMenu',
+export default Vue.extend({
+   name: "SessionMenu",
    components: {
-      HomeCircleIcon,
-      LogoutCircleIcon
+      "window-open-icon": WindowOpenIcon,
+      "home-circle-icon": HomeCircleIcon,
+      "logout-circle-icon": LogoutCircleIcon,
+      'adjust-icon': AdjustIcon
    },
    data() {
       return {
-         showMenu: false
+         showMenu: false,
+      };
+   },
+   computed: {
+      user() {
+         return this.$store.getters["user/user"];
+      },
+      themeTogglerLabel() {
+         return (this.$store.state['ui']['enableDarkTheme'])?
+            "Switch to Light theme":
+            "Switch to Dark theme";
+      },
+      menuIconClasses() {
+         return [
+            'menu-icon',
+            'pos-rel',
+            'rounded',
+            'cursor-pointer'
+         ];
+      },
+      menuIconImageClasses() {
+         return [
+            'menu-icon-image',
+            'w-100',
+            'h-100'
+         ];
+      },
+      menuAreaClasses() {
+         return [
+            'menu-area',
+            'h-auto',
+            'pos-abs',
+            'pad-small',
+            'radius-medium',
+            'cursor-pointer',
+            'shadow-medium',
+         ];
+      },
+      menuItemClasses() {
+         return [
+            'menu-item',
+            'xstack',
+            'pad-x-medium',
+            'align-center',
+            'radius-inherit'
+         ];
+      },
+      menuRegularItemClasses() {
+         return [
+            ...this.menuItemClasses,
+            'text-foreground'
+         ];
+      },
+      menuDangerItemClasses() {
+         return [
+            ...this.menuItemClasses,
+            'text-error'
+         ];
+      },
+      menuBlindAreaClasses() {
+         return [
+            'menu-blind-area',
+            'cover-viewport',
+            'w-100',
+            'h-100'
+         ];
       }
    },
-   computed: mapUserGetters(['user']),
    methods: {
-      ...mapAuthActions(['logout']),
-
-      toUrl,
+      toggleTheme() {
+         this.$store.dispatch('ui/toggleActiveTheme');
+         this.toggleMenu();
+      },
       gotoHome() {
-         this.$router.push('/')
-         this.toggleMenu()
+         this.$router.push("/");
+         this.toggleMenu();
       },
       toggleMenu() {
-         this.showMenu = !this.showMenu
-      }
-   }
-})
+         this.showMenu = !this.showMenu;
+      },
+   },
+});
 </script>
 
-<style scoped lang="scss">
-.session-menu {
-   position: relative;
-}
+<style scoped>
 .menu-icon {
-   position: relative;
    padding: 2pt;
    width: 25pt;
    height: 25pt;
-   cursor: pointer;
-   border-radius: 50%;
    box-sizing: content-box;
    z-index: 500;
    border-width: 1px;
    border-style: solid;
    border-color: transparent;
-
-   &:hover {
-      border-color: var(--accents-2);
-   }
-
-   .menu-icon-image {
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-   }
 }
-
+.menu-icon:hover {
+   border-color: var(--accents-2);
+}
+.menu-icon .menu-icon-image {
+   border-radius: inherit;
+}
 .menu-area {
-   position: absolute;
-   padding: 4pt;
    right: 0;
    margin-top: 4pt;
-   width: 140pt;
-   height: auto;
+   width: 160pt;
    z-index: 500;
-   box-shadow: var(--shadow-medium);
-   cursor: pointer;
-   border-radius: var(--radius);
    background-color: var(--background);
-
-   .menu-item {
-      display: flex;
-      height: 32pt;
-      gap: 6pt;
-      padding-left: var(--gap-half);
-      padding-right: var(--gap-half);
-      align-items: center;
-      border-radius: inherit;
-      background-color: transparent;
-      transition: background-color 120ms linear;
-
-      &:hover {
-         background-color: var(--accents-1);
-      }
-
-      .app-icon {
-         width: 12pt;
-         height: 12pt;
-      }
-      .label {
-         font-size: 93%;
-      }
-   }
 }
-
+.menu-area .menu-item {
+   height: 32pt;
+   gap: 6pt;
+   transition: background-color 120ms linear;
+}
+.menu-area .menu-item:hover {
+   background-color: var(--accents-1);
+}
+.menu-area .menu-item .app-icon {
+   width: 12pt;
+   height: 12pt;
+}
+.menu-area .menu-item .label {
+   font-size: 93%;
+}
 .menu-blind-area {
-   position: fixed;
-   width: 100%;
-   height: 100%;
-   top: 0;
-   bottom: 0;
-   right: 0;
-   left: 0;
    z-index: 400;
    background-color: rgba(0, 0, 0, 0.09);
+}
+
+body.dark .menu-area {
+   background-color: var(--background);
+}
+body.dark .menu-blind-area {
+   background-color: rgba(25, 25, 25, 0.4);
 }
 </style>

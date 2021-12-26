@@ -1,59 +1,49 @@
 <template>
-   <button :class="iconButtonClasses">
+   <button class="app-icon-button pad-0 inline-xstack justify-center align-center noborder rounded cursor-pointer" @click="$emit('click')">
       <component :is="svgIcon"></component>
    </button>
 </template>
 
-<script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue' 
+<script>
+import Vue from "vue";
 
-export default defineComponent({
-   name: 'AppIconButton',
-
+export default Vue.extend({
+   name: "AppIconButton",
    props: {
       name: {
          type: String,
-         required: true
-      }
-   },
-
-   computed: {
-      svgIcon() {
-         return defineAsyncComponent(() => import(`./Icons/${this.name}.vue`))
+         required: true,
       },
-      iconButtonClasses() {
-         return ['app-icon-button']
-      }
-   }
-})
+   },
+   data() {
+      return {
+         svgIcon: null,
+      };
+   },
+   async mounted() {
+      this.svgIcon = (
+         await import(`../assets/vue-icons/${this.name}.vue`)
+      ).default;
+   },
+});
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .app-icon-button {
-   display: inline-flex;
-   align-items: center;
-   justify-content: center;
-   padding: 0;
-   border: none;
-   width: 20pt;
-   height: 20pt;
-   cursor: pointer;
-   border-radius: 25px;
+   width: 22pt;
+   height: 22pt;
    background-color: var(--accents-1);
    transition: background-color 120ms linear;
-
-   .app-icon {
-      width: 15px;
-      height: 15px;
-   }
-
-   &:hover {
-      background-color: var(--accents-2);
-   }
-
-   &:active {
-      background-color: var(--foreground);
-      color: var(--background);
-   }
+}
+.app-icon-button .app-icon {
+   width: 18px;
+   height: 18px;
+}
+.app-icon-button:hover {
+   background-color: var(--accents-2);
+}
+.app-icon-button:active {
+   background-color: var(--foreground);
+   color: var(--background);
 }
 </style>
