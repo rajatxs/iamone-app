@@ -25,6 +25,11 @@
                <app-loader size="20pt" />
                <div><small>Getting themes...</small></div>
             </div>
+
+            <div v-if="selectionProcess" class="selection-process ystack align-center justify-center gap-large w-100 pad-y-medium">
+               <app-loader size="20pt" />
+               <div><small>Applying...</small></div>
+            </div>
          </template>
       </app-card>
    </app-controller-view>
@@ -38,6 +43,7 @@ export default Vue.extend({
    data() {
       return {
          loading: false,
+         selectionProcess: false,
          themes: []
       }
    },
@@ -69,6 +75,8 @@ export default Vue.extend({
             return;
          }
 
+         this.selectionProcess = true;
+
          try {
             const response = await this.axios.put('/page-config', payload);
             
@@ -80,9 +88,10 @@ export default Vue.extend({
                });
             }
          } catch (error) {
-            console.log("ERROR", error);
             this.$toast.error(error.response.data.message);
          }
+
+         this.selectionProcess = false;
       }
    }
 })
@@ -139,6 +148,16 @@ export default Vue.extend({
 }
 .design-theme:hover {
    box-shadow: var(--shadow-medium);
+}
+.selection-process {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   z-index: 82;
+   background-color: var(--background);
+   opacity: 0.9;
 }
 @media (max-width: 480px) {
    .design-themes {
