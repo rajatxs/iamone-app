@@ -47,7 +47,7 @@
                   :minlines="3"
                   multiline
                   format="text"
-                  hint="Description"
+                  hint="Description (optional)"
                   expanded
                />
             </app-input-field>
