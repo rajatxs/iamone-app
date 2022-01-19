@@ -42,7 +42,7 @@ export default Vue.extend({
    },
    computed: {
       bodyClasses() {
-         const list = ["card-body"];
+         const list = ["card-body", "pos-rel"];
 
          list.push("pad-" + this.gap);
 
