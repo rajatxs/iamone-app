@@ -14,6 +14,15 @@
          />
       </div>
 
+      <div 
+         v-if="hasAvatar"
+         class="avatar-remove-button cursor-pointer pos-abs rounded bg-light" 
+         role="button" 
+         title="Remove profile image"
+         @click="removeAvatar">
+         <XIcon />
+      </div>
+
       <input
          type="file"
          ref="avatarSelector"
@@ -26,9 +35,13 @@
 
 <script>
 import Vue from "vue";
+import XIcon from "../../assets/vue-icons/x.vue";
 
 export default Vue.extend({
    name: "ProfileAvatarSelector",
+   components: {
+      XIcon
+   },
    data() {
       return {
          loading: true,
@@ -41,6 +54,9 @@ export default Vue.extend({
       },
       avatarSelector() {
          return this.$refs["avatarSelector"];
+      },
+      hasAvatar() {
+         return Boolean(this.user.image);
       },
    },
    watch: {
@@ -74,6 +90,7 @@ export default Vue.extend({
             })
 
             if (response.status === 200 || response.status === 201) {
+               this.$toast.success("Profile image has been uploaded");
                this.$store.dispatch('user/loadUser');
             } else {
                throw new Error();
@@ -83,8 +100,36 @@ export default Vue.extend({
          }
       },
 
+      async removeAvatar() {
+         let response;
+
+         try {
+            response = await this.axios.delete('/user/image');
+
+            if (response.status === 200) {
+               this.$toast.success("Profile image has been removed");
+               this.$store.commit('user/SET_IMAGE', "");
+            }
+         } catch (error) {
+            this.$toast.error("Failed to remove avatar");
+         }
+      },
+
       openFileMenu() {
          this.avatarSelector.click();
+      },
+
+      validateFile(file) {
+         if (!file) {
+            return false;
+         }
+
+         if (file.size > 2097152) {
+            this.$toast.error('File size exceeds size limit');
+            return false;
+         }
+
+         return true;
       },
 
       async handleAvatarSelection($event) {
@@ -93,7 +138,7 @@ export default Vue.extend({
 
          file = files && files.length > 0 ? files[0] : null;
 
-         if (!file) {
+         if (!this.validateFile(file)) {
             return;
          }
 
@@ -104,6 +149,9 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+.app-profile-image-selector {
+   position: relative;
+}
 .profile-avatar-cover {
    display: flex;
    justify-content: center;
@@ -130,5 +178,19 @@ export default Vue.extend({
 }
 .avatar-selector-input {
    display: none;
+}
+.avatar-remove-button {
+   z-index: 80;
+   top: 2pt;
+   right: 2pt;
+   width: 18pt;
+   height: 18pt;
+}
+.avatar-remove-button .app-icon {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   fill: var(--accents-5);
 }
 </style>
