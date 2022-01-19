@@ -10,6 +10,7 @@ const userModule = {
          username: "",
          fullname: "",
          bio: "",
+         image: "",
          location: "",
          email: "",
          emailVerified: false,
