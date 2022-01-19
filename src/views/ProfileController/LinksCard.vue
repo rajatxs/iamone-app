@@ -17,7 +17,7 @@
                </div>
                <div class="link-metadata pad-y-medium">
                   <div class="title">{{ truncate(link.title, 46) }}</div>
-                  <div class="desc">{{ truncate(link.description, 58) }}</div>
+                  <div class="desc">{{ truncate(link.description || link.href, 58) }}</div>
                </div>
             </div>
 
