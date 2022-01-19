@@ -2,7 +2,7 @@
    <div class="app-controlbar-logo" aria-label="logo">
       <img
          class="app-controlbar-logo-image"
-         src="/icons/im1.svg"
+         src="/icons/iamone.svg"
          width="80"
          height="80"
          alt="iamone"

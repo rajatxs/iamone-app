@@ -1,6 +1,6 @@
 <template>
    <div :class="logoClasses" :style="logoStyle">
-      <img src="/icons/im1.svg" class="app-logo-image" />
+      <img src="/icons/iamone.svg" class="app-logo-image" />
    </div>
 </template>
 
