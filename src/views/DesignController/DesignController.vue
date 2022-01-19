@@ -1,6 +1,6 @@
 <template>
    <app-controller-view name="design">
-      <app-card title="Best of 2021" gap="large">
+      <app-card title="Best of 2022" gap="large">
          <template #body>
             <div class="design-themes gap-large">
                <div 

@@ -146,7 +146,7 @@ export default Vue.extend({
 .menu-area {
    right: 0;
    margin-top: 4pt;
-   width: 160pt;
+   width: 184pt;
    z-index: 500;
    background-color: var(--background);
 }

@@ -1,6 +1,6 @@
 <template>
    <app-modal
-      title="Add new social link"
+      :title="modalTitle"
       width="510px"
       @close="$emit('close')"
       @blur="$emit('blur')">
@@ -73,7 +73,7 @@
             color="primary"
             @click="submitForm('linkEditorForm')"
             :loading="status.additionOrUpdation">
-            Save
+            {{ actionLabel }}
          </app-button>
       </template>
    </app-modal>
@@ -110,6 +110,12 @@ export default Vue.extend({
       },
       actionType() {
          return this.linkId ? "UPDATE" : "ADD";
+      },
+      actionLabel() {
+         return (this.actionType === 'ADD')? "Add": "Update";
+      },
+      modalTitle() {
+         return (this.actionType === 'ADD')? "Add new link": 'Update link';
       },
       payload() {
          return {

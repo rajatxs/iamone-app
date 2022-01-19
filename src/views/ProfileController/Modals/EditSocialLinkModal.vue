@@ -1,6 +1,6 @@
 <template>
    <app-modal
-      title="Add new social link"
+      :title="modalTitle"
       width="395px"
       height="350px"
       @close="$emit('close')"
@@ -20,7 +20,7 @@
             <app-input 
                v-model="label" 
                format="text" 
-               hint="Label"
+               hint="Label (optional)"
                :autofocus="true" 
                expanded />
          </app-input-field>
@@ -50,7 +50,7 @@
             color="primary"
             @click="submitForm('socialEditorForm')"
             :loading="status.additionOrUpdation">
-            Done
+            {{ actionLabel }}
          </app-button>
       </template>
 
@@ -101,8 +101,11 @@ export default Vue.extend({
       actionType() {
          return this.linkId ? "UPDATE" : "ADD";
       },
+      actionLabel() {
+         return (this.actionType === 'ADD')? "Add": "Update";
+      },
       socialPlatform() {
-         return this.currentSocialPlatform || { name: "im1", key: "im1" };
+         return this.currentSocialPlatform || { name: "Select platform", key: "iamone" };
       },
       social() {
          let ref = null;
@@ -114,6 +117,9 @@ export default Vue.extend({
          }
 
          return ref;
+      },
+      modalTitle() {
+         return (this.actionType === 'ADD')? "Add new social link": 'Update social link';
       },
       payload() {
          return {
