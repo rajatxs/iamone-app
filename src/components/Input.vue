@@ -32,6 +32,7 @@
             :autocomplete="autocomplete"
             :autofocus="autofocus"
             :autocapitalize="autocapitalize"
+            :pattern="pattern"
             @input="handleInput"
             @focus="focus"
             @change="$emit('change')"
@@ -66,6 +67,10 @@ export default Vue.extend({
       expanded: {
          type: Boolean,
          default: false,
+      },
+      pattern: {
+         type: [RegExp, String],
+         required: false
       },
       multiline: {
          type: Boolean,
