@@ -30,8 +30,8 @@
                v-model="slug" 
                format="text" 
                :hint="hint" 
-               autocomplete="username"
-               :autocapitalize="false" 
+               :autocomplete="slugType"
+               :autocapitalize="false"
                required 
                expanded />
          </app-input-field>
@@ -65,19 +65,23 @@
 
 <script>
 import Vue from "vue";
+import * as regex from "../../../utils/regex";
 import SocialPlatformSelector from "./SocialPlatformSelector.vue";
 
 export default Vue.extend({
    name: "SocialLinkEditorModal",
+
    components: {
       'social-platform-selector': SocialPlatformSelector,
    },
+
    props: {
       linkId: {
          type: String,
          required: true,
       },
    },
+
    data() {
       return {
          status: {
@@ -87,10 +91,12 @@ export default Vue.extend({
          currentSocialPlatform: null,
          label: "",
          slug: "",
+         slugPattern: null,
          hint: "Username or unique id",
          viewSelectorModal: false,
       };
    },
+
    computed: {
       socialPlatforms() {
          return this.$store.getters['socialPlatforms/socialPlatforms'];
@@ -106,6 +112,9 @@ export default Vue.extend({
       },
       socialPlatform() {
          return this.currentSocialPlatform || { name: "Select platform", key: "iamone" };
+      },
+      slugType() {
+         return (this.currentSocialPlatform)? this.currentSocialPlatform.type: 'text';
       },
       social() {
          let ref = null;
@@ -129,17 +138,21 @@ export default Vue.extend({
          };
       },
    },
+
    watch: {
       currentSocialPlatform(newPlatform) {
          this.hint = newPlatform.hint;
+         this.updateSlugPattern(newPlatform.type);
       },
    },
+
    created() {
       if (this.actionType === "UPDATE") {
          this.label = this.social.label;
          this.slug = this.social.slug;
       }
    },
+
    beforeMount() {
       if (this.actionType === "UPDATE") {
          this.currentSocialPlatform = (
@@ -147,7 +160,29 @@ export default Vue.extend({
          ).find((service) => service.key === this.social.socialServiceKey);
       }
    },
+
    methods: {
+
+      /** update slug regex for validation */
+      updateSlugPattern(type) {
+         switch(type) {
+            case 'username':
+               this.slugPattern = regex.USERNAME; 
+               break;
+
+            case 'url':
+               this.slugPattern = regex.ABSOLUTE_URL;
+               break;
+
+            case 'phone':
+               this.slugPattern = regex.PHONE;
+               break;
+
+            case 'email':
+               this.slugPattern = regex.EMAIL;
+               break;
+         }
+      },
 
       /** add new social item */
       async addNewSocialItem() {
@@ -184,8 +219,23 @@ export default Vue.extend({
          this.status.deletion = false;
       },
 
+      /** validate inputs */
+      validateInputs() {
+         if (this.slugPattern && !this.slug.match(this.slugPattern)) {
+            this.$toast.error(`Invalid ${this.currentSocialPlatform.type}`);
+            return false;
+         }
+
+         return true;
+      },
+
       async dispatchAction() {
+         if (!this.validateInputs()) {
+            return;
+         }
+
          this.status.additionOrUpdation = true;
+
          switch (this.actionType) {
             case "ADD":
                await this.addNewSocialItem();
