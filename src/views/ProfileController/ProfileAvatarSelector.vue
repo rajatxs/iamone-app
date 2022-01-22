@@ -91,7 +91,7 @@ export default Vue.extend({
 
             if (response.status === 200 || response.status === 201) {
                this.$toast.success("Profile image has been uploaded");
-               this.$store.dispatch('user/loadUser');
+               this.$store.commit('user/SET_IMAGE', response.data.result.imageId);
             } else {
                throw new Error();
             }
