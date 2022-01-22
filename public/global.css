@@ -528,6 +528,9 @@
 .app-input[aria-multiline="true"] {
    height: auto;
 }
+.app-input[aria-multiline="true"] .app-input-controller{
+   resize: none;
+}
 .app-input[aria-expanded="true"] {
    width: 100%;
 }
