@@ -148,6 +148,9 @@ export default Vue.extend({
    margin-top: 4pt;
    width: 184pt;
    z-index: 500;
+   border-width: 1px;
+   border-style: solid;
+   border-color: transparent;
    background-color: var(--background);
 }
 .menu-area .menu-item {
@@ -170,10 +173,14 @@ export default Vue.extend({
    background-color: rgba(0, 0, 0, 0.09);
 }
 
+body.dark .menu-icon {
+   border-color: var(--accents-2);
+}
 body.dark .menu-area {
    background-color: var(--background);
+   border-color: var(--accents-2);
 }
 body.dark .menu-blind-area {
-   background-color: rgba(25, 25, 25, 0.4);
+   background-color: rgba(0, 0, 0, 0.4);
 }
 </style>

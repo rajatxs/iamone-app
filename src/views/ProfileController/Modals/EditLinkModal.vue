@@ -238,7 +238,7 @@ export default Vue.extend({
 }
 .favicon-icon {
    width: 170px;
-   margin-top: 32pt;
+   margin-top: 18pt;
    text-align: center;
 }
 .favicon-icon .favicon-icon-boundary {
@@ -265,7 +265,6 @@ export default Vue.extend({
 }
 .link-editor-inputs {
    width: 340px;
-   margin-top: var(--gap);
 }
 @media (max-width: 480px) {
    .custom-link-editor {

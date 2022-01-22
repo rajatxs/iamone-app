@@ -81,7 +81,6 @@ export default Vue.extend({
 .preview-link-text {
    border-top-left-radius: inherit;
    border-bottom-left-radius: inherit;
-
    transition: background-color 120ms linear;
 }
 .preview-link-text:hover {
@@ -108,6 +107,6 @@ body.dark .app-preview-link {
 }
 body.dark .preview-link-text:hover,
 body.dark .link-clipboard-action:hover {
-   background-color: var(--accents-2);
+   background-color: var(--accents-1);
 }
 </style>

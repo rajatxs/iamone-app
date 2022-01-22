@@ -68,7 +68,7 @@ export default Vue.extend({
             "margin-x-small",
             "margin-y-small",
             "pad-x-large",
-            "radius-medium",
+            "radius-default",
          ];
 
          list.push("type__" + this.type);

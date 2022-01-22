@@ -98,7 +98,8 @@ export default Vue.extend({
    height: 32px;
 }
 .links .link .link-metadata {
-   padding-right: var(--gap-half);
+   padding-right: var(--gap);
+   overflow: hidden;
 }
 .links .link .title {
    font-weight: bold;
@@ -109,6 +110,6 @@ export default Vue.extend({
 }
 
 body.dark .links .link {
-   border-color: var(--accents-1);
+   border-color: var(--accents-2);
 }
 </style>

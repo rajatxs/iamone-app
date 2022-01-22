@@ -400,6 +400,9 @@
 .radius-inherit {
    border-radius: inherit;
 }
+.radius-default {
+   border-radius: var(--radius);
+}
 .rounded {
    border-radius: 50%;
 }
@@ -545,6 +548,15 @@
 .app-input .app-input-controller::placeholder {
    font-size: 93%;
    color: var(--accents-3);
+}
+
+body.dark .app-input {
+   background-color: var(--background);
+   border-color: var(--accents-2);
+   color: var(--foreground);
+}
+body.dark .app-input.focused {
+   border-color: var(--accents-6);
 }
 
 /* ---------------- app loader ---------------- */

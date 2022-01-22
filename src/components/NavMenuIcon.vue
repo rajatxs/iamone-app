@@ -43,4 +43,8 @@ export default Vue.extend({
 .navmenu-icon:hover {
    background-color: var(--accents-2);
 }
+
+body.dark .navmenu-icon:hover {
+   background-color: var(--accents-1);
+}
 </style>

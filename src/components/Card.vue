@@ -63,7 +63,10 @@ export default Vue.extend({
    border-bottom: 1px solid var(--accents-2);
 }
 
+body.dark .app-card {
+   background-color: var(--accents-1);
+}
 body.dark .card-header {
-   border-bottom-color: var(--accents-1);
+   border-bottom-color: var(--accents-2);
 }
 </style>

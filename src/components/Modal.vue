@@ -196,11 +196,11 @@ export default Vue.extend({
 @keyframes modal-create-anim {
    from {
       opacity: 0;
-      transform: scale(0.9) translateY(-18px);
+      transform: translateY(-28px);
    }
    to {
       opacity: 1;
-      transform: scale(1) translateY(0);
+      transform: translateY(0);
    }
 }
 
@@ -225,6 +225,9 @@ export default Vue.extend({
    background-color: transparent;
 }
 .app-modal {
+   border-width: 1px;
+   border-style: solid;
+   border-color: transparent;
    background-color: var(--background);
    animation-name: modal-create-anim;
    animation-duration: 280ms;
@@ -254,10 +257,11 @@ export default Vue.extend({
 }
 
 body.dark .app-modal-outlayer {
-   background-color: rgba(24, 24, 24, 0.45);
+   background-color: rgba(0, 0, 0, 0.8);
 }
 body.dark .app-modal {
    background-color: var(--background);
+   border-color: var(--accents-2);
 }
 
 @media (max-width: 480px) {

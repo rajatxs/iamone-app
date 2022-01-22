@@ -125,10 +125,10 @@ export default Vue.extend({
 }
 
 body.dark .vscreen .vscreen-device .vscreen-notch {
-   background-color: var(--accents-2);
+   background-color: var(--accents-1);
 }
 body.dark .vscreen .vscreen-device .vscreen-display {
-   box-shadow: 0 0 0 6vw var(--accents-2);
+   box-shadow: 0 0 0 6vw var(--accents-1);
 }
 body.dark .vscreen .vscreen-device .iPhone__button {
    background-color: var(--accents-2);

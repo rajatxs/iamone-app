@@ -157,6 +157,6 @@ export default Vue.extend({
 
 body.dark .social-link {
    background-color: var(--accents-1);
-   border-color: var(--accents-1);
+   border-color: var(--accents-2);
 }
 </style>
