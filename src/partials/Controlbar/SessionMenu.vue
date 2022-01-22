@@ -1,7 +1,7 @@
 <template>
    <div class="session-menu pos-rel">
       <div :class="menuIconClasses" @click="toggleMenu">
-         <img :class="menuIconImageClasses" :src="user.image | USER_IMAGE" />
+         <img :class="menuIconImageClasses" :src="$USER_PROFILE_IMAGE" />
       </div>
       <div v-if="showMenu" :class="menuAreaClasses">
          <a :href="$livePageUrl" target="_blank" :class="menuRegularItemClasses" @click="gotoHome">

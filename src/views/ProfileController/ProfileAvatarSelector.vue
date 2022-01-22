@@ -6,7 +6,7 @@
          <img
             v-show="!loading"
             class="profile-avatar-image"
-            :src="user.image | USER_IMAGE"
+            :src="$USER_PROFILE_IMAGE"
             :alt="user.fullname"
             @click="openFileMenu"
             @error="handleImageLoadEvent"
