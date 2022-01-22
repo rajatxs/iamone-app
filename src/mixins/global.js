@@ -53,7 +53,7 @@ export default Vue.extend({
        * @param {number} len - Text length
        */
       truncate(val, len) {
-         return val.substring(0, len);
+         return val.substring(0, len).concat((val.length >= len)? '...': '');
       },
 
       /**
