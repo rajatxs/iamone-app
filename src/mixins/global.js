@@ -21,14 +21,6 @@ export default Vue.extend({
       },
 
       /**
-       * Returns url of user image
-       * @param {string} id
-       */
-      USER_IMAGE(id) {
-         return REMOTE_API_SERVER_URL.concat("/user/image/" + id);
-      },
-
-      /**
        * Returns relative url of social icon
        * @param {string} key
        */
@@ -44,6 +36,12 @@ export default Vue.extend({
             REMOTE_SERVER_URL + "/" + this.$store.getters["user/user"].username
          );
       },
+
+      /** Profile image url */
+      $USER_PROFILE_IMAGE() {
+         const user = this.$store.getters['user/user'];
+         return REMOTE_API_SERVER_URL.concat("/user/image/" + user.image + `?seed=${user.username}`);
+      }
    },
 
    methods: {
