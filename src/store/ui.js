@@ -6,6 +6,7 @@ const UIModule = {
       viewAuthModal: false,
       viewQRCodeModal: false,
       viewShareModal: false,
+      viewEmailVerificationModal: false,
       viewUpdatePasswordModal: false,
       viewMockupSplashScreen: false,
       viewPreview: false
@@ -22,6 +23,9 @@ const UIModule = {
       },
       SHOW_SHARE_MODAL(state, val) {
          state.viewShareModal = val;
+      },
+      SHOW_EMAIL_VERIFICATION_MODAL(state, val) {
+         state.viewEmailVerificationModal = val;
       },
       SHOW_UPDATE_PASSWORD_MODAL(state, val) {
          state.viewUpdatePasswordModal = val;

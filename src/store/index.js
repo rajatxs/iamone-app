@@ -55,6 +55,10 @@ export default new Vuex.Store({
             if ("user" in data) {
                this.commit("user/SET_USER_DATA", data.user);
                this.commit("user/SET_LOAD_STATE", true);
+
+               if (!data.user.emailVerified) {
+                  this.commit('ui/SHOW_EMAIL_VERIFICATION_MODAL', true);
+               }
             }
 
             if ("socials" in data) {

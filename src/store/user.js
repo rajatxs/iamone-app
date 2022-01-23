@@ -13,7 +13,7 @@ const userModule = {
          image: "",
          location: "",
          email: "",
-         emailVerified: false,
+         emailVerified: true,
       },
    },
 
@@ -33,6 +33,9 @@ const userModule = {
       SET_IMAGE(state, val) {
          state._data.image = val;
       },
+      SET_EMAIL_VERIFIED(state, val) {
+         state._data.emailVerified = val;
+      }
    },
 
    actions: {
@@ -40,13 +43,15 @@ const userModule = {
       /** fetch user data and save in user state */
       async loadUser({ state, commit }) {
          const response = await api.get("/user/detail");
+         let data;
 
          if (state._loaded) {
             commit("SET_LOAD_STATE", false);
          }
 
          if (response.status === 200) {
-            commit("SET_USER_DATA", response.data.result);
+            data = response.data.result;
+            commit("SET_USER_DATA", data);
             commit("SET_LOAD_STATE", true);
          }
       },
