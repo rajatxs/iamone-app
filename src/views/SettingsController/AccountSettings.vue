@@ -8,7 +8,7 @@
 
             <app-button
                size="small"
-               background="blue"
+               color="primary"
                :loading="username.loading"
                :disabled="!hasUsernameChanged"
                @click="changeUsername"
@@ -31,13 +31,24 @@
             />
 
             <app-button
+               v-if="user.emailVerified"
+               expanded
                size="small"
-               background="blue"
+               color="primary"
                :loading="email.loading"
                :disabled="!hasEmailChanged"
-               @click="changeEmail"
-               expanded>
+               @click="changeEmail">
                Change email
+            </app-button>
+            
+            <app-button
+               v-else
+               expanded
+               color="primary"
+               size="small"
+               background="blue"
+               @click="$store.commit('ui/SHOW_EMAIL_VERIFICATION_MODAL', true)">
+               Verify email
             </app-button>
 
             <p v-if="email.errorMessage" class="pad-x-small text-red">
@@ -140,9 +151,15 @@ export default Vue.extend({
       async changeEmail() {
          const { email } = this;
          let payload = {};
+         const perm = confirm("After this action, your public page will not show until you verify the new email.", false);
 
          if (!this.hasEmailChanged) {
             this.email.errorMessage = "";
+            return;
+         }
+
+         if (!perm) {
+            this.email.text = this.user.email;
             return;
          }
 
@@ -151,8 +168,10 @@ export default Vue.extend({
 
          try {
             const response = await this.axios.put("/user/email", payload);
-            this.$store.commit('user/SET_EMAIL', email.text);
             this.$toast.success(response.data.message);
+            this.$store.commit('user/SET_EMAIL', email.text);
+            this.$store.commit('user/SET_EMAIL_VERIFIED', false);
+            this.$store.commit('ui/SHOW_EMAIL_VERIFICATION_MODAL', true);
          } catch (error) {
             this.$toast.error(error.response.data.message);
          }
