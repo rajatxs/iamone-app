@@ -77,6 +77,20 @@
    color: var(--background);
 }
 
+.bg-accents-1 {
+   background-color: var(--accents-1);
+   color: var(--accents-8);
+}
+.bg-accents-2 {
+   background-color: var(--accents-2);
+   color: var(--accents-6);
+}
+.bg-accents-3 {
+   background-color: var(--accents-3);
+   color: var(--background);
+}
+
+
 .use-primary {
    --color: var(--primary);
    --color-fr: var(--primary-fr);
