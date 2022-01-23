@@ -6,7 +6,7 @@
       </div>
 
       <div v-else class="universal-data-loading">
-         <img src="/img/iamone-gray.svg" width="120" alt="iamone" />
+         <img class="universal-data-loading-image" src="/img/iamone-gray.svg" width="120" alt="iamone" />
       </div>
 
       <app-universal-area />
@@ -74,12 +74,11 @@ export default Vue.extend({
    bottom: 0;
    background-color: rgba(255, 255, 255, 0.8);
 }
-.universal-loader {
-   width: 37pt;
-   height: 37pt;
+
+body.dark .universal-data-loading {
+   background-color: var(--background);
 }
-.universal-data-loading-message {
-   margin-top: 28pt;
-   line-height: 2.6rem;
+body.dark .universal-data-loading .universal-data-loading-image {
+   filter: invert(0);
 }
 </style>
