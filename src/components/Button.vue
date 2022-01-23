@@ -6,7 +6,7 @@
       :disabled="disabled"
       @click="$emit('click')"
    >
-      <app-loader v-if="loading" color="light" />
+      <app-loader v-if="loading" :color="loaderColor" />
       <slot v-else></slot>
    </button>
 </template>
@@ -40,6 +40,10 @@ export default Vue.extend({
       color: {
          type: String,
          default: "foreground",
+      },
+      loaderColor: {
+         type: String,
+         default: 'light'
       },
       nogap: {
          type: Boolean,
