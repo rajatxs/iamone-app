@@ -13,7 +13,7 @@
          <p>We will send email verification code on your email</p>
 
          <app-input-field hgap="none">
-            <app-input v-model="code" hint="Verification code" expanded />
+            <app-input v-model="code" format="number" hint="Verification code" expanded />
          </app-input-field>
       </div>
 
