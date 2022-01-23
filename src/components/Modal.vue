@@ -281,8 +281,10 @@ body.dark .app-modal {
       width: 100% !important;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
-      /* border-top-left-radius: 25px;
-      border-top-right-radius: 25px; */
+   }
+   body.dark .app-modal {
+      border-color: transparent;
+      border-top-color: var(--accents-2);
    }
 }
 </style>
