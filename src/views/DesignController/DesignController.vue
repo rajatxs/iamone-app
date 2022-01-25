@@ -1,22 +1,26 @@
 <template>
    <app-controller-view name="design">
-      <app-card v-for="collection in collections" :key="collection.id" :title="collection.name" gap="large">
+      <app-card title="Themes" gap="large">
          <template #body>
-            <div class="design-themes gap-large">
-               <div 
-                  v-for="theme in collection.themes"
-                  :key="theme.key" 
-                  :data-theme-key="theme.key"
-                  :data-theme-active="theme.key === themeName"
-                  @click="changeCurrentTheme(theme.key)"
-                  class="design-theme radius-medium">
-                  <div class="theme-thumb">
-                     <img class="theme-thumb-image" :src="theme.thumb" :alt="theme.name" />
-                  </div>
-                  <div class="theme-name pad-x-medium pad-y-medium text-center">
-                     <small>{{ theme.name }}</small>
+            <div v-for="collection in collections" :key="collection.id">
+               <h5 class="pad-x-small">{{ collection.name }}</h5>
+               <div class="design-themes gap-large">
+                  <div 
+                     v-for="theme in collection.themes"
+                     :key="theme.key" 
+                     :data-theme-key="theme.key"
+                     :data-theme-active="theme.key === themeName"
+                     @click="changeCurrentTheme(theme.key)"
+                     class="design-theme radius-medium">
+                     <div class="theme-thumb">
+                        <img class="theme-thumb-image" :src="theme.thumb" :alt="theme.name" />
+                     </div>
+                     <div class="theme-name pad-x-medium pad-y-medium text-center">
+                        <small>{{ theme.name }}</small>
+                     </div>
                   </div>
                </div>
+               <br />
             </div>
 
             <br />
@@ -42,7 +46,7 @@ export default Vue.extend({
    name: 'DesignController',
    data() {
       return {
-         loading: false,
+         loading: true,
          selectionProcess: false,
          themes: [],
          collections: []
@@ -57,6 +61,7 @@ export default Vue.extend({
       await this.loadThemes();
    },
    methods: {
+
       async loadThemes() {
          this.loading = true;
          try {
@@ -67,6 +72,7 @@ export default Vue.extend({
          }
          this.loading = false;
       },
+
       async changeCurrentTheme(themeName) {
          let payload = {
             theme: themeName
@@ -105,7 +111,7 @@ export default Vue.extend({
 }
 .design-theme {
    position: relative;
-   height: 240px;
+   min-height: 240px;
    cursor: pointer;
    border-width: 1px;
    border-style: solid;
