@@ -34,13 +34,8 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-/* :root {
-  --page-root-width: 100%;
-  --page-root-background-image: url(https://cdn.bio.link/themes/backgrounds/saffron.png);
-} */
 .page__body {
    width: 100%;
-   height: 100%;
    padding-top: 28px;
 }
 .page__content {

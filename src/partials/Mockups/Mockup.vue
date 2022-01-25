@@ -92,7 +92,6 @@ export default Vue.extend({
 
             if (typeof response.data === 'string') {
                this.templateSource = response.data;
-               console.log("CODE", response.data)
             }
          } catch (error) {
             this.$toast.error("Failed to get design template");
