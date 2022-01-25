@@ -14,8 +14,8 @@ const pageConfigModule = {
       SET_DATA(state, data) {
          state._data = data;
       },
-      SET_TEMPLATE_NAME(state, val) {
-         state._data.templateName = val;
+      SET_THEME(state, val) {
+         state._data.theme = val;
       }
    },
    actions: {

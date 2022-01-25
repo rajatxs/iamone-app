@@ -6,5 +6,4 @@ export const REMOTE_SERVER_URL = isProd
 
 export const REMOTE_API_SERVER_URL = REMOTE_SERVER_URL + "/_/api";
 
-export const REMOTE_TEMPLATE_API_SERVER_URL =
-   REMOTE_SERVER_URL + "/_/templates";
+export const REMOTE_THEME_SOURCE_URL = REMOTE_SERVER_URL + "/_/themes";

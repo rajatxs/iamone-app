@@ -1,5 +1,11 @@
 <template>
    <div class="mockup-area">
+      <link 
+         v-if="themeSourceUrl" 
+         rel="stylesheet" 
+         itemprop="url" 
+         :href="themeSourceUrl" />
+
       <keep-alive v-if="mockupComponent">
          <component 
             :is="mockupComponent" 
@@ -13,6 +19,7 @@
 import Vue from "vue";
 import handlebars from "handlebars";
 import { templateApi } from '../../http';
+import { REMOTE_THEME_SOURCE_URL } from "../../config";
 
 export default Vue.extend({
    name: "AppMockup",
@@ -30,6 +37,12 @@ export default Vue.extend({
       templateName() {
          return this.$store.getters['pageConfig/pageConfig'].templateName;
       },
+      themeName() {
+         return this.$store.getters['pageConfig/pageConfig'].theme;
+      },
+      themeSourceUrl() {
+         return `${REMOTE_THEME_SOURCE_URL}/${this.themeName}.css`;
+      }
    },
    watch: {
       async templateName() {
@@ -38,7 +51,7 @@ export default Vue.extend({
       },
       templateSource() {
          this.compile();
-      },
+      }
    },
 
    async mounted() {
@@ -75,10 +88,11 @@ export default Vue.extend({
          endpoint += templateName;
 
          try {
-            response = await templateApi.get(endpoint + '.hbs')
+            response = await templateApi.get(endpoint + '.hbs');
 
             if (typeof response.data === 'string') {
                this.templateSource = response.data;
+               console.log("CODE", response.data)
             }
          } catch (error) {
             this.$toast.error("Failed to get design template");

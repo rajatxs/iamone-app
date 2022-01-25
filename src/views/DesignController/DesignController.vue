@@ -1,13 +1,13 @@
 <template>
    <app-controller-view name="design">
-      <app-card title="Best of 2022" gap="large">
+      <app-card v-for="collection in collections" :key="collection.id" :title="collection.name" gap="large">
          <template #body>
             <div class="design-themes gap-large">
                <div 
-                  v-for="theme in themes"
+                  v-for="theme in collection.themes"
                   :key="theme.key" 
                   :data-theme-key="theme.key"
-                  :data-theme-active="theme.key === templateName"
+                  :data-theme-active="theme.key === themeName"
                   @click="changeCurrentTheme(theme.key)"
                   class="design-theme radius-medium">
                   <div class="theme-thumb">
@@ -44,12 +44,13 @@ export default Vue.extend({
       return {
          loading: false,
          selectionProcess: false,
-         themes: []
+         themes: [],
+         collections: []
       }
    },
    computed: {
-      templateName() {
-         return this.$store.getters['pageConfig/pageConfig'].templateName;
+      themeName() {
+         return this.$store.getters['pageConfig/pageConfig'].theme;
       }
    },
    async mounted() {
@@ -60,7 +61,7 @@ export default Vue.extend({
          this.loading = true;
          try {
             const response = await this.axios.get('/template/list');
-            this.themes = response.data.result;
+            this.collections = response.data.result;
          } catch (error) {
             this.$toast.error(error.response.data.message);
          }
@@ -68,10 +69,10 @@ export default Vue.extend({
       },
       async changeCurrentTheme(themeName) {
          let payload = {
-            templateName: themeName
+            theme: themeName
          };
 
-         if (themeName === this.templateName) {
+         if (themeName === this.themeName) {
             return;
          }
 
@@ -81,7 +82,7 @@ export default Vue.extend({
             const response = await this.axios.put('/page-config', payload);
             
             if (response.status === 200 || response.status === 201) {
-               this.$store.commit('pageConfig/SET_TEMPLATE_NAME', themeName);
+               this.$store.commit('pageConfig/SET_THEME', themeName);
                this.$toast.success({
                   text: "Theme applied",
                   duration: 1200

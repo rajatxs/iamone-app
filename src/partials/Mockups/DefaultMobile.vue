@@ -8,7 +8,9 @@
          <div class="vscreen-frame">
             <div class="vscreen-notch"></div>
             <div class="vscreen-display">
-               <div ref="mockupScreen" class="page__content" v-html="code"></div>
+               <div class="page__body">
+                  <div ref="mockupScreen" class="page__content" v-html="code"></div>
+               </div>
             </div>
          </div>
       </div>
@@ -32,6 +34,18 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+/* :root {
+  --page-root-width: 100%;
+  --page-root-background-image: url(https://cdn.bio.link/themes/backgrounds/saffron.png);
+} */
+.page__body {
+   width: 100%;
+   height: 100%;
+   padding-top: 28px;
+}
+.page__content {
+   width: inherit;
+}
 .vscreen {
    width: 100%;
    max-width: 320px;
@@ -42,19 +56,10 @@ export default Vue.extend({
    position: relative;
    padding-bottom: 200.2380952381%;
    -webkit-overflow-scrolling: touch;
+   z-index: 2;
 }
 .vscreen .vscreen-device ::-webkit-scrollbar {
-   width: 5px;
-   height: 5px;
-   background-color: transparent;
-}
-.vscreen .vscreen-device ::-webkit-scrollbar-thumb {
-   background-color: rgba(0, 0, 0, 0.25);
-   border-radius: 2.5px;
-   transition: background-color 0.2s ease-out;
-}
-.vscreen .vscreen-device ::-webkit-scrollbar-thumb:hover {
-   background-color: rgba(0, 0, 0, 0.5);
+   display: none;
 }
 .vscreen .vscreen-device .vscreen-frame {
    position: absolute;
@@ -67,6 +72,7 @@ export default Vue.extend({
    overflow: hidden;
    z-index: 100;
    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.3);
+   z-index: 5;
 }
 .vscreen .vscreen-device .vscreen-notch {
    position: absolute;
@@ -84,7 +90,6 @@ export default Vue.extend({
    left: 6%;
    right: 6%;
    bottom: 3%;
-   padding-top: 10%;
    box-shadow: 0 0 0 6vw var(--foreground);
    border-radius: 10% / 5%;
    background: var(--page-content-background);
