@@ -36,7 +36,9 @@ export default Vue.extend({
 <style scoped>
 .page__body {
    width: 100%;
+   min-height: 100%;
    padding-top: 28px;
+   background-size: 100% 100%;
 }
 .page__content {
    width: inherit;
