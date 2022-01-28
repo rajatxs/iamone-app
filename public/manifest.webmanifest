@@ -1,0 +1,22 @@
+{
+   "name": "iamone",
+   "short_name": "iamone",
+   "description": "iamone allows you to create personal link page",
+   "orientation": "portrait-primary",
+   "display": "standalone",
+   "start_url": "/",
+   "background_color": "#FFFFFF",
+   "theme_color": "#FFFFFF",
+   "icons": [
+      {
+         "src": "/android-chrome-192x192.png",
+         "type": "image/png",
+         "sizes": "192x192"
+      },
+      {
+         "src": "/android-chrome-512x512.png",
+         "type": "image/png",
+         "sizes": "512x512"
+      }
+   ]
+}
