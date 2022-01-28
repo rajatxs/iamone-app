@@ -166,6 +166,9 @@ export default Vue.extend({
    background-color: var(--background);
    opacity: 0.9;
 }
+body.dark .theme-name {
+   background-color: rgba(0, 0, 0, 0.9);
+}
 @media (max-width: 480px) {
    .design-themes {
       grid-template-columns: repeat(2, 1fr);
