@@ -27,6 +27,7 @@ export default new Vuex.Store({
          const user = rootGetters["user/user"];
          const social = rootGetters["socials/socials"];
          const links = rootGetters["links/links"];
+         const page = rootGetters["pageConfig/pageConfig"]
          const options = {
             host: REMOTE_SERVER_URL,
          };
@@ -36,6 +37,7 @@ export default new Vuex.Store({
             social,
             links,
             options,
+            page
          };
       },
    },

@@ -4,6 +4,7 @@
          v-if="themeSourceUrl" 
          rel="stylesheet" 
          itemprop="url" 
+         @error="$toast.error('Failed to load theme')"
          :href="themeSourceUrl" />
 
       <keep-alive v-if="mockupComponent">
@@ -19,7 +20,7 @@
 import Vue from "vue";
 import handlebars from "handlebars";
 import { templateApi } from '../../http';
-import { REMOTE_THEME_SOURCE_URL } from "../../config";
+import { REMOTE_API_SERVER_URL } from "../../config";
 
 export default Vue.extend({
    name: "AppMockup",
@@ -28,11 +29,15 @@ export default Vue.extend({
          code: "",
          templateSource: "",
          mockupComponent: null,
+         themeStateNonce: 0
       };
    },
    computed: {
       templateData() {
          return this.$store.getters.templateData;
+      },
+      pageConfigId() {
+         return this.$store.getters.templateData.page._id;
       },
       templateName() {
          return this.$store.getters['pageConfig/pageConfig'].templateName;
@@ -41,13 +46,16 @@ export default Vue.extend({
          return this.$store.getters['pageConfig/pageConfig'].theme;
       },
       themeSourceUrl() {
-         return `${REMOTE_THEME_SOURCE_URL}/${this.themeName}.css`;
+         return `${REMOTE_API_SERVER_URL}/theme/${this.pageConfigId}?nonce=${this.themeStateNonce}`;
       }
    },
    watch: {
       async templateName() {
          await this.loadMockup();
          await this.loadTemplateSource();
+      },
+      themeName() {
+         this.themeStateNonce++;
       },
       templateSource() {
          this.compile();
