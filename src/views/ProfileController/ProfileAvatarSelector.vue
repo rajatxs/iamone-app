@@ -2,149 +2,51 @@
    <div class="app-profile-image-selector">
       <div class="profile-avatar-cover">
          <app-loader v-if="loading" color="foreground" />
-
+         
          <img
             v-show="!loading"
             class="profile-avatar-image"
             :src="$USER_PROFILE_IMAGE"
             :alt="user.fullname"
-            @click="openFileMenu"
+            @click="showSelectorModal = true"
             @error="handleImageLoadEvent"
-            @load="handleImageLoadEvent"
+            @load="loading = false"
          />
       </div>
 
-      <div 
-         v-if="hasAvatar"
-         class="avatar-remove-button cursor-pointer pos-abs rounded bg-light" 
-         role="button" 
-         title="Remove profile image"
-         @click="removeAvatar">
-         <XIcon />
-      </div>
-
-      <input
-         type="file"
-         ref="avatarSelector"
-         class="avatar-selector-input"
-         accept="image/jpeg,image/png"
-         @change="handleAvatarSelection"
+      <profile-image-selector-modal
+         v-if="showSelectorModal"
+         @close="showSelectorModal = false" 
       />
    </div>
 </template>
 
 <script>
 import Vue from "vue";
-import XIcon from "../../assets/vue-icons/x.vue";
+import ProfileImageSelectorModal from "./Modals/ProfileImageSelectorModal.vue";
 
 export default Vue.extend({
    name: "ProfileAvatarSelector",
    components: {
-      XIcon
-   },
-   data() {
-      return {
-         loading: true,
-         selectedFile: null,
-      };
+      'profile-image-selector-modal': ProfileImageSelectorModal
    },
    computed: {
       user() {
          return this.$store.getters["user/user"];
       },
-      avatarSelector() {
-         return this.$refs["avatarSelector"];
-      },
-      hasAvatar() {
-         return Boolean(this.user.image);
-      },
    },
-   watch: {
-      selectedFile(newFile) {
-         if (!newFile) {
-            return;
-         }
-
-         this.loading = true;
-         setTimeout(async () => {
-            await this.uploadAvatar(newFile);
-            this.loading = false;
-         }, 1200);
-      },
+   data() {
+      return {
+         loading: false,
+         showSelectorModal: false
+      }
    },
    methods: {
       handleImageLoadEvent() {
+         this.$toast.error("Failed to load profile image");
          this.loading = false;
       },
-      async uploadAvatar(file) {
-         const formData = new FormData()
-         let response = null
-
-         formData.append('file', file)
-
-         try {
-            response = await this.axios.post('/user/image', formData, {
-               headers: {
-                  'Content-Type': 'multipart/form-data'
-               }
-            })
-
-            if (response.status === 200 || response.status === 201) {
-               this.$toast.success("Profile image has been uploaded");
-               this.$store.commit('user/SET_IMAGE', response.data.result.imageId);
-            } else {
-               throw new Error();
-            }
-         } catch (error) {
-            this.$toast.error("Failed to upload avatar");
-         }
-      },
-
-      async removeAvatar() {
-         let response;
-
-         try {
-            response = await this.axios.delete('/user/image');
-
-            if (response.status === 200) {
-               this.$toast.success("Profile image has been removed");
-               this.$store.commit('user/SET_IMAGE', "");
-            }
-         } catch (error) {
-            this.$toast.error("Failed to remove avatar");
-         }
-      },
-
-      openFileMenu() {
-         this.avatarSelector.click();
-      },
-
-      validateFile(file) {
-         if (!file) {
-            return false;
-         }
-
-         if (file.size > 2097152) {
-            this.$toast.error('File size exceeds size limit');
-            return false;
-         }
-
-         return true;
-      },
-
-      async handleAvatarSelection($event) {
-         const files = $event.target.files;
-         let file = null;
-
-         file = files && files.length > 0 ? files[0] : null;
-
-         if (!this.validateFile(file)) {
-            return;
-         }
-
-         this.selectedFile = file;
-      },
-   },
+   }
 });
 </script>
 
