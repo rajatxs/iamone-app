@@ -97,8 +97,6 @@ export default Vue.extend({
          const { payload } = this;
          let response = null;
 
-         console.log("DATA", payload)
-
          this.inProgress = true;
 
          try {
