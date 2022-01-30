@@ -76,6 +76,10 @@
    background-color: var(--foreground);
    color: var(--background);
 }
+.bg-default {
+   background-color: var(--accents-2);
+   color: var(--accents-8);
+}
 
 .bg-accents-1 {
    background-color: var(--accents-1);
