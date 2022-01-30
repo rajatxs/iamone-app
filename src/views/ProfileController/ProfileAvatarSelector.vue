@@ -16,7 +16,9 @@
 
       <profile-image-selector-modal
          v-if="showSelectorModal"
-         @close="showSelectorModal = false" 
+         @close="closeImageSelectorModal" 
+         @blur="closeImageSelectorModal"
+         @done="closeImageSelectorModal"
       />
    </div>
 </template>
@@ -46,6 +48,9 @@ export default Vue.extend({
          this.$toast.error("Failed to load profile image");
          this.loading = false;
       },
+      closeImageSelectorModal() {
+         this.showSelectorModal = false;
+      }
    }
 });
 </script>

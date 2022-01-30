@@ -1,13 +1,13 @@
 <template>
    <app-modal
-      title="Select profile image"
-      width="610px"
-      height="450px"
+      title="Change profile image"
+      width="380px"
+      height="280px"
       gap="large"
       @close="$emit('close')"
       @blur="$emit('blur')">
 
-      <div class="profile-image-selector xstack justify-space-between">
+      <div class="profile-image-selector justify-space-between">
          <div class="current-profile-image-selector margin-x-auto">
             <div class="current-profile-image" @click="openFileMenu">
                <app-loader v-if="loading" class="black image-loader" />
@@ -20,14 +20,15 @@
                />
 
                <input
+                  hidden
                   type="file"
                   ref="profileImageSelectorInput"
                   class="profile-image-selector-input"
-                  accept="image/jpeg,image/png"
-                  hidden
+                  accept="image/jpeg,image/png,image/svg+xml"
+                  @change="handleAvatarSelection"
                />
             </div>
-            
+
             <div 
                v-if="hasAvatar"
                class="profile-image-remove-button cursor-pointer pos-abs rounded bg-light" 
@@ -37,37 +38,46 @@
                <XIcon />
             </div>
          </div>
-
-         <div class="profile-image-gallery">
-            <div class="searchbar">
-               <app-input hint="Seach" expanded />
-            </div>
-
-            <div v-if="false" class="ystack align-center pad-y-large">
-               <br />
-               <app-loader size="24px" />
-               <br />
-               <small>Loading avatars</small>
-            </div>
-
-            <div class="profile-image-collections pad-y-medium">
-               <div v-for="(collection, collectionIndex) in collections" :key="collectionIndex" class="profile-image-collection xstack gap-medium">
-                  <div v-for="avatar in collection" :key="avatar" class="profile-image-avatar">
-                     <img class="profile-image-avatar-image" :src="'/icons/' + avatar + '.svg'" alt="Avatar" width="34" />
-                  </div>
-               </div>
-            </div>
-         </div>
       </div>
+
+      <template #footer>
+         <div class="ystack w-100">
+            <app-button color="default" expanded @click="showAvatarSelectorModal = true">Choose Avatar</app-button>
+            <app-button color="primary" expanded @click="$emit('done')">Done</app-button>
+         </div>
+      </template>
+
+      <AvatarSelectorModal 
+         v-if="showAvatarSelectorModal"
+         @close="showAvatarSelectorModal = false"
+         @select="uploadAvatar" />
    </app-modal>
 </template>
 
 <script>
+import AvatarSelectorModal from "./AvatarSelectorModal.vue";
 import XIcon from "../../../assets/vue-icons/x.vue";
 
 export default {
    components: {
       XIcon,
+      AvatarSelectorModal
+   },
+
+   data() {
+      return {
+         loading: false,
+         selectedFile: null,
+         showAvatarSelectorModal: false,
+         collections: [
+            [
+               "facebook",
+               "twitter",
+               "youtube",
+               "github"
+            ]
+         ]
+      };
    },
 
    watch: {
@@ -92,23 +102,8 @@ export default {
          return this.$refs["profileImageSelectorInput"];
       },
       hasAvatar() {
-         return !Boolean(this.user.image);
+         return Boolean(this.user.image);
       },
-   },
-
-   data() {
-      return {
-         loading: false,
-         selectedFile: null,
-         collections: [
-            [
-               "facebook",
-               "twitter",
-               "youtube",
-               "github"
-            ]
-         ]
-      };
    },
 
    methods: {
@@ -121,6 +116,10 @@ export default {
 
          formData.append('file', file)
 
+         if (this.showAvatarSelectorModal) {
+            this.showAvatarSelectorModal = false;
+         }
+
          try {
             response = await this.axios.post('/user/image', formData, {
                headers: {
@@ -129,7 +128,10 @@ export default {
             })
 
             if (response.status === 200 || response.status === 201) {
-               this.$toast.success("Profile image has been uploaded");
+               this.$toast.success({
+                  text: "Profile image has been uploaded",
+                  duration: 1200
+               });
                this.$store.commit('user/SET_IMAGE', response.data.result.imageId);
             } else {
                throw new Error();
@@ -242,18 +244,5 @@ export default {
    position: relative;
    width: max-content;
    margin-top: 18pt;
-   /* background-color: aqua; */
-}
-.profile-image-gallery {
-   width: 410px;
-   /* background-color: violet; */
-}
-.profile-image-avatar {
-   width: 34pt;
-   height: 34pt;
-}
-.profile-image-avatar .profile-image-avatar-image {
-   width: 100%;
-   height: 100%;
 }
 </style>
