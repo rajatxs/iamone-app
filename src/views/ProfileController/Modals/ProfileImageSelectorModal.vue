@@ -81,16 +81,14 @@ export default {
    },
 
    watch: {
-      selectedFile(newFile) {
+      async selectedFile(newFile) {
          if (!newFile) {
             return;
          }
 
          this.loading = true;
-         setTimeout(async () => {
-            await this.uploadAvatar(newFile);
-            this.loading = false;
-         }, 1200);
+         await this.uploadAvatar(newFile);
+         this.loading = false;
       },
    },
 
@@ -117,6 +115,7 @@ export default {
          formData.append('file', file)
 
          if (this.showAvatarSelectorModal) {
+            this.selectedFile = file;
             this.showAvatarSelectorModal = false;
          }
 
