@@ -18,7 +18,7 @@ const socialsModule = {
    actions: {
       /** Load all socials */
       async loadAll({ state, commit }) {
-         const response = await api.get("/social-ref");
+         const response = await api.get("/social-links");
 
          if (state._loaded) {
             commit("SET_LOAD_STATE", false);

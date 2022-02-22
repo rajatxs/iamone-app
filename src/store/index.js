@@ -44,7 +44,7 @@ export default new Vuex.Store({
 
    actions: {
       async loadTemplateData({ state, commit }) {
-         let response = await api.get("/template/data");
+         let response = await api.get("/page/data");
          let data = {};
 
          if (state._loaded) {
@@ -63,8 +63,8 @@ export default new Vuex.Store({
                }
             }
 
-            if ("socials" in data) {
-               this.commit("socials/SET_DATA", data.socials);
+            if ("social" in data) {
+               this.commit("socials/SET_DATA", data.social);
                this.commit("socials/SET_LOAD_STATE", true);
             }
 

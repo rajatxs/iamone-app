@@ -25,7 +25,7 @@
                   ref="profileImageSelectorInput"
                   class="profile-image-selector-input"
                   accept="image/jpeg,image/png,image/svg+xml"
-                  @change="handleAvatarSelection"
+                  @change="handleProfileImageSelection"
                />
             </div>
 
@@ -50,7 +50,7 @@
       <AvatarSelectorModal 
          v-if="showAvatarSelectorModal"
          @close="showAvatarSelectorModal = false"
-         @select="uploadAvatar" />
+         @select="handleAvatarSelection" />
    </app-modal>
 </template>
 
@@ -100,7 +100,7 @@ export default {
          return this.$refs["profileImageSelectorInput"];
       },
       hasAvatar() {
-         return Boolean(this.user.image);
+         return Boolean(this.user.imageHash);
       },
    },
 
@@ -108,6 +108,16 @@ export default {
       handleImageLoadEvent() {
          this.loading = false;
       },
+
+      async handleAvatarSelection(file) {
+         try {
+            await this.axios.delete('/user/image');
+            this.selectedFile = file;
+         } catch (error) {
+            this.$toast.error("Failed to apply Avatar");
+         }
+      },
+
       async uploadAvatar(file) {
          const formData = new FormData()
          let response = null
@@ -120,7 +130,7 @@ export default {
          }
 
          try {
-            response = await this.axios.post('/user/image', formData, {
+            response = await this.axios.put('/user/image', formData, {
                headers: {
                   'Content-Type': 'multipart/form-data'
                }
@@ -131,7 +141,8 @@ export default {
                   text: "Profile image has been uploaded",
                   duration: 1200
                });
-               this.$store.commit('user/SET_IMAGE', response.data.result.imageId);
+
+               this.$store.commit('user/SET_IMAGE', response.data.result.imageHash);
             } else {
                throw new Error();
             }
@@ -140,19 +151,30 @@ export default {
          }
       },
 
-      async removeAvatar() {
+      async _removeAvatar() {
          let response;
 
          try {
             response = await this.axios.delete('/user/image');
 
             if (response.status === 200) {
-               this.$toast.success("Profile image has been removed");
-               this.$store.commit('user/SET_IMAGE', "");
+               return response.data;
             }
          } catch (error) {
-            this.$toast.error("Failed to remove avatar");
+            throw new Error(response.data.message);
          }
+      },
+
+      async removeAvatar() {
+         let result = await this._removeAvatar();
+
+         if (result instanceof Error) {
+            this.$toast.error("Failed to remove avatar");
+            return;
+         }
+         
+         this.$toast.success(result.message);
+         this.$store.commit('user/SET_IMAGE', "");
       },
 
       openFileMenu() {
@@ -176,7 +198,7 @@ export default {
          return true;
       },
 
-      async handleAvatarSelection($event) {
+      async handleProfileImageSelection($event) {
          const files = $event.target.files;
          let file = null;
 

@@ -151,7 +151,7 @@ export default Vue.extend({
       async changeEmail() {
          const { email } = this;
          let payload = {};
-         const perm = confirm("After this action, your public page will not show until you verify the new email.", false);
+         const perm = confirm("Confirm again to proceed", false);
 
          if (!this.hasEmailChanged) {
             this.email.errorMessage = "";

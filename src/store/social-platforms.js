@@ -20,7 +20,7 @@ const socialPlatformsModule = {
    actions: {
       /** Fetch list of social platforms */
       async loadAll({ state, commit }) {
-         const response = await api.get("/social-service");
+         const response = await api.get("/social-platforms");
 
          if (state._loaded) {
             commit("SET_LOAD_STATE", false);

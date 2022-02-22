@@ -39,8 +39,7 @@ export default Vue.extend({
 
       /** Profile image url */
       $USER_PROFILE_IMAGE() {
-         const user = this.$store.getters['user/user'];
-         return REMOTE_API_SERVER_URL.concat("/user/image/" + user.image + `?seed=${user.username}`);
+         return this.$store.getters['user/profileImageUrl'];
       }
    },
 

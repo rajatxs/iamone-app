@@ -4,7 +4,7 @@
          <template #body>
             <div v-for="collection in collections" :key="collection.id">
                <h5 class="pad-x-small">{{ collection.name }}</h5>
-               <div class="design-themes gap-large">
+               <div class="design-themes">
                   <div 
                      v-for="theme in collection.themes"
                      :key="theme.key" 
@@ -61,11 +61,10 @@ export default Vue.extend({
       await this.loadThemes();
    },
    methods: {
-
       async loadThemes() {
          this.loading = true;
          try {
-            const response = await this.axios.get('/template/list');
+            const response = await this.axios.get('/page/themes');
             this.collections = response.data.result;
          } catch (error) {
             this.$toast.error(error.response.data.message);
@@ -107,6 +106,7 @@ export default Vue.extend({
 <style>
 .design-themes {
    display: grid;
+   gap: var(--gap);
    grid-template-columns: repeat(3, 1fr);
 }
 .design-theme {
@@ -171,7 +171,11 @@ body.dark .theme-name {
 }
 @media (max-width: 480px) {
    .design-themes {
+      gap: var(--gap-half);
       grid-template-columns: repeat(2, 1fr);
+   }
+   .design-theme {
+      min-height: 220px;
    }
 }
 </style>

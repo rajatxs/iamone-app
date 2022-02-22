@@ -8,8 +8,8 @@ window.onload = function () {
       },
       get remoteApiServerUrl() {
          return (this.env === 'development') ?
-            "http://localhost:5000/_/api" :
-            "https://iamone.link/_/api";
+            "http://localhost:5000/x/api" :
+            "https://iamone.link/x/api";
       },
 
       saveAuthTokens(obj = {}) {
@@ -65,7 +65,7 @@ window.onload = function () {
          errorMessage.style.display = 'block';
       },
 
-      createRequest(method = 'GET', path = '/test', data = {}) {
+      createRequest(method = 'GET', path = '/ping', data = {}) {
          const self = this;
 
          return new Promise(function (resolve, reject) {
@@ -104,7 +104,7 @@ window.onload = function () {
          })
       },
 
-      createFormDataRequest(method = 'POST', path = '/test', data = {}) {
+      createFormDataRequest(method = 'POST', path = '/ping', data = {}) {
          const self = this;
 
          return new Promise(function (resolve, reject) {

@@ -58,7 +58,7 @@ export default {
 
          this.tasks.sendingVerificationCode = true;
          try {
-            response = await this.axios.get('/user/email/request-verification');
+            response = await this.axios.get('/user/email/verification');
             this.$toast.success(response.data.message);
             this.resendDelay = 45000;
 

@@ -100,14 +100,14 @@ export default Vue.extend({
          this.inProgress = true;
 
          try {
-            response = await this.axios.put('/user/detail', payload);
+            response = await this.axios.put('/user/profile', payload);
 
             if (response.status === 200) {
                await this.$store.dispatch('user/loadUser');
-               this.$toast.success("Profile updated");
+               this.$toast.success(response.data.message);
             }
          } catch (error) {
-            this.$toast.error("Failed to update user profile");
+            this.$toast.error(error.response.data.message);
          }
 
          this.inProgress = false;

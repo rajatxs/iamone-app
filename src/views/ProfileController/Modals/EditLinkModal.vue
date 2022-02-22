@@ -81,6 +81,7 @@
 
 <script>
 import Vue from "vue";
+import axios from 'axios';
 
 export default Vue.extend({
    name: "EditLinkModal",
@@ -148,7 +149,7 @@ export default Vue.extend({
    methods: {
       /** fetch public site metadata by url  */
       async fetchSiteMetadata(url) {
-         const response = await this.axios.post('/clink/metadata', { url });
+         const response = await axios.get(`https://sitemeta.herokuapp.com/v1/meta?url=${url}`);
          return response.data;
       },
 
@@ -175,7 +176,7 @@ export default Vue.extend({
             result = data.result;
             this.title = result.title;
             this.thumb = result.thumb;
-            this.favicon = result.favicon;
+            this.favicon = result.icon;
             this.description = result.description;
          }
       },
@@ -183,7 +184,7 @@ export default Vue.extend({
       /** add new custom link */
       async addNewLink() {
          try {
-            const response = await this.axios.post('/clink', this.payload);
+            const response = await this.axios.post('/links', this.payload);
             this.$emit("done");
             this.$toast.success(response.data.message);
          } catch (error) {
@@ -194,7 +195,7 @@ export default Vue.extend({
       /** update existing custom link */
       async updateCurrentLink() {
          try {
-            const response = await this.axios.put('/clink/' + this.linkId, this.payload);
+            const response = await this.axios.put('/links/' + this.linkId, this.payload);
             this.$emit("done");
             this.$toast.success(response.data.message);
          } catch (error) {
@@ -206,7 +207,7 @@ export default Vue.extend({
       async deleteLink() {
          this.status.deletion = true;
          try {
-            const response = await this.axios.delete('/clink/' + this.linkId);
+            const response = await this.axios.delete('/links/' + this.linkId);
             this.$emit("done");
             this.$toast.success(response.data.message);
          } catch (error) {

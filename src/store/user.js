@@ -10,7 +10,7 @@ const userModule = {
          username: "",
          fullname: "",
          bio: "",
-         image: "",
+         imageHash: "",
          location: "",
          email: "",
          emailVerified: true,
@@ -31,7 +31,7 @@ const userModule = {
          state._data.email = val;
       },
       SET_IMAGE(state, val) {
-         state._data.image = val;
+         state._data.imageHash = val;
       },
       SET_EMAIL_VERIFIED(state, val) {
          state._data.emailVerified = val;
@@ -42,7 +42,7 @@ const userModule = {
 
       /** fetch user data and save in user state */
       async loadUser({ state, commit }) {
-         const response = await api.get("/user/detail");
+         const response = await api.get("/user/profile");
          let data;
 
          if (state._loaded) {
@@ -67,6 +67,18 @@ const userModule = {
       /** User data */
       user(state) {
          return state._data;
+      },
+
+      profileImageUrl(state) {
+         let url;
+
+         if (state._data.imageHash) {
+            url = `https://ipfs.infura.io:5001/api/v0/cat?arg=${state._data.imageHash}`;
+         } else {
+            url = `https://avatars.dicebear.com/api/initials/:${state._data.username}.svg?chars=1`;
+         }
+
+         return url;
       },
 
       /** User data load state */

@@ -11,7 +11,7 @@
 
                <img
                   class="social-service-icon-image"
-                  :src="ref.socialServiceKey | SOCIAL_ICON"
+                  :src="ref.platformKey | SOCIAL_ICON"
                   alt=""
                />
             </div>

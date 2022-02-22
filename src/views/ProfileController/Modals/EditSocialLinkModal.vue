@@ -134,7 +134,7 @@ export default Vue.extend({
          return {
             label: this.label,
             slug: this.slug,
-            socialServiceKey: this.socialPlatform.key,
+            platformKey: this.socialPlatform.key,
          };
       },
    },
@@ -157,7 +157,7 @@ export default Vue.extend({
       if (this.actionType === "UPDATE") {
          this.currentSocialPlatform = (
             this.socialPlatforms
-         ).find((service) => service.key === this.social.socialServiceKey);
+         ).find((service) => service.key === this.social.platformKey);
       }
    },
 
@@ -187,18 +187,18 @@ export default Vue.extend({
       /** add new social item */
       async addNewSocialItem() {
          try {
-            await this.axios.post('/social-ref', this.payload);
+            await this.axios.post('/social-links', this.payload);
             this.$emit("done");
             this.$toast.success("Link has been added");
          } catch (error) {
-            this.$toast.error("Failed to add new link");
+            this.$toast.error(error.response.data.message);
          }
       },
 
       /** update selected social item */
       async updateSocialItem() {
          try {
-            await this.axios.put('/social-ref/' + this.linkId, this.payload);
+            await this.axios.put('/social-links/' + this.linkId, this.payload);
             this.$toast.success("Link has been updated");
             this.$emit("done");
          } catch (error) {
@@ -210,7 +210,7 @@ export default Vue.extend({
       async deleteSocialItem() {
          this.status.deletion = true;
          try {
-            await this.axios.delete('/social-ref/' + this.linkId);
+            await this.axios.delete('/social-links/' + this.linkId);
             this.$toast.success("Link has been removed");
             this.$emit('done');
          } catch (error) {

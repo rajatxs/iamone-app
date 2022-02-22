@@ -18,7 +18,7 @@ const linksModule = {
    actions: {
       /** load all links */
       async loadAll({ state, commit }) {
-         const response = await api.get("/clink");
+         const response = await api.get("/links");
 
          if (state._loaded) {
             commit("SET_LOAD_STATE", false);

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { clearAuthTokens, redirectToLoginPage } from "./utils/common";
-import { REMOTE_SERVER_URL, REMOTE_API_SERVER_URL } from "./config";
+import { REMOTE_API_SERVER_URL } from "./config";
 import locals from "./locals";
 
 export const api = axios.create({
@@ -31,7 +31,7 @@ export const api = axios.create({
 });
 
 export const templateApi = axios.create({
-   baseURL: REMOTE_SERVER_URL  + "/_/templates",
+   baseURL: REMOTE_API_SERVER_URL  + "/page/templates",
    responseType: "text",
    headers: {
       Accept: "text/html, text/plain",

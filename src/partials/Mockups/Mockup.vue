@@ -46,7 +46,7 @@ export default Vue.extend({
          return this.$store.getters['pageConfig/pageConfig'].theme;
       },
       themeSourceUrl() {
-         return `${REMOTE_API_SERVER_URL}/theme/${this.pageConfigId}?nonce=${this.themeStateNonce}`;
+         return `${REMOTE_API_SERVER_URL}/page/themes/source/${this.pageConfigId}?nonce=${this.themeStateNonce}`;
       }
    },
    watch: {
@@ -96,7 +96,7 @@ export default Vue.extend({
          endpoint += templateName;
 
          try {
-            response = await templateApi.get(endpoint + '.hbs');
+            response = await templateApi.get(endpoint);
 
             if (typeof response.data === 'string') {
                this.templateSource = response.data;
@@ -112,7 +112,7 @@ export default Vue.extend({
             "templateData.user.fullname",
             "templateData.user.company",
             "templateData.user.bio",
-            "templateData.user.image",
+            "templateData.user.imageHash",
             "templateData.social",
             "templateData.links"
          ];
