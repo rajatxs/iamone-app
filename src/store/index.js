@@ -8,6 +8,7 @@ import user from "./user";
 import socialPlatforms from "./social-platforms";
 import pageConfig from "./page-config";
 import { REMOTE_SERVER_URL } from "../config";
+import { clearAuthTokens, redirectToLoginPage } from "../utils/common";
 
 Vue.use(Vuex);
 
@@ -55,6 +56,11 @@ export default new Vuex.Store({
             data = response.data.result;
 
             if ("user" in data) {
+               if (!data.user) {
+                  clearAuthTokens();
+                  return redirectToLoginPage();
+               }
+
                this.commit("user/SET_USER_DATA", data.user);
                this.commit("user/SET_LOAD_STATE", true);
 
