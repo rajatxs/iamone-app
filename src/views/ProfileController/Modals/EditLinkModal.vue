@@ -12,7 +12,7 @@
                <img
                   v-else
                   class="favicon-icon-image"
-                  :src="favicon || '/icons/iamone.svg'"
+                  :src="favicon || staticUrl('/icons/iamone.svg')"
                />
             </div>
          </div>

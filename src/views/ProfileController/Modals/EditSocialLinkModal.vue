@@ -9,7 +9,7 @@
       <!-- Platform icons -->
       <div class="platform-icon">
          <div class="platform-icon-boundary" @click="showSelectorModal">
-            <img class="platform-icon-image" :src="socialPlatform.key | SOCIAL_ICON" />
+            <img class="platform-icon-image" :src="socialPlatform.key | SOCIAL_ICON" :alt="socialPlatform.name" />
          </div>
          <h6 class="service-label">{{ socialPlatform.name }}</h6>
       </div>

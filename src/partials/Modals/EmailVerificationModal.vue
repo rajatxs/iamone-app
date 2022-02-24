@@ -8,7 +8,7 @@
 
       <div>
          <div class="pad-y-large text-center">
-            <img src="/img/email-verification.svg" height="72" />
+            <img src="https://static.iamone.link/images/email-verification.svg" height="72" />
          </div>
          <p>We will send email verification code on your email</p>
 

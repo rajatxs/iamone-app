@@ -18,7 +18,7 @@
             class="icon-option"
             @click="selectSocialPlatform(platform)"
          >
-            <img :src="toSocialIcon(platform.key)" class="icon" />
+            <img :src="platform.key | SOCIAL_ICON" :alt="platform.name" class="icon" />
             <span class="label">{{ platform.name }}</span>
          </div>
       </div>
@@ -71,9 +71,6 @@ export default Vue.extend({
    methods: {
       selectSocialPlatform(service) {
          this.$emit("select", service);
-      },
-      toSocialIcon(key) {
-         return `/icons/${key}.svg`;
       },
    },
 });

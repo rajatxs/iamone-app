@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { clearAuthTokens, redirectToLoginPage } from "../utils/common";
-import { REMOTE_SERVER_URL, REMOTE_API_SERVER_URL } from "../config";
+import { REMOTE_SERVER_URL, REMOTE_API_SERVER_URL, STATIC_RESOURCE_URL } from "../config";
 
 export default Vue.extend({
    filters: {
@@ -21,11 +21,19 @@ export default Vue.extend({
       },
 
       /**
+       * Returns absolute url of static resource
+       * @param {string} path 
+       */
+      STATIC_URL(path) {
+         return STATIC_RESOURCE_URL + '/' + path;
+      },
+
+      /**
        * Returns relative url of social icon
        * @param {string} key
        */
       SOCIAL_ICON(key) {
-         return `/icons/${key}.svg`;
+         return `${STATIC_RESOURCE_URL}/images/social-icons/${key}.svg`;
       },
    },
 
@@ -40,10 +48,19 @@ export default Vue.extend({
       /** Profile image url */
       $USER_PROFILE_IMAGE() {
          return this.$store.getters['user/profileImageUrl'];
-      }
+      },
    },
 
    methods: {
+
+      /** 
+       * Resolve absolute url of static resource
+       * @param {string} path
+       */
+      staticUrl(path) {
+         return STATIC_RESOURCE_URL + '/' + path;
+      },
+
       /**
        * truncate long text
        * @param {string} val - Value

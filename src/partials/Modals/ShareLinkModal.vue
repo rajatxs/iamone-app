@@ -17,7 +17,7 @@
 
             <img
                class="platform-icon"
-               :src="platform.icon"
+               :src="platform.key | SOCIAL_ICON"
                :alt="platform.name"
             />
             <small class="platform-name">{{ platform.name }}</small>
@@ -39,7 +39,7 @@ export default Vue.extend({
          return [
             {
                name: "Facebook",
-               icon: "/icons/facebook.svg",
+               key: "facebook",
                link: encodeURI(
                   `https://www.facebook.com/sharer.php?u=${pageUrl}`
                ),
@@ -47,6 +47,7 @@ export default Vue.extend({
 
             {
                name: "Twitter",
+               key: "twitter",
                icon: "/icons/twitter.svg",
                link: encodeURI(
                   `https://twitter.com/intent/tweet?url=${pageUrl}&text=I created my link page on iamone.link`
@@ -54,13 +55,14 @@ export default Vue.extend({
             },
             {
                name: "WhatsApp",
-               icon: "/icons/whatsapp.svg",
+               key: "whatsapp",
                link: encodeURI(
                   `https://api.whatsapp.com/send?text=I created page for my all links\n${pageUrl}`
                ),
             },
             {
                name: "LinkedIn",
+               key: "linkedin",
                icon: "/icons/linkedin.svg",
                link: encodeURI(
                   `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`
