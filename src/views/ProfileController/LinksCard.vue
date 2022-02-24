@@ -11,7 +11,7 @@
                <div class="link-thumb xstack align-center justify-center">
                   <img
                      class="thumb-image"
-                     :src="link.favicon || '/icons/iamone.svg'"
+                     :src="link.favicon || staticUrl('/icons/iamone.svg')"
                      alt=""
                   />
                </div>

@@ -6,7 +6,7 @@
       </div>
 
       <div v-else class="universal-data-loading">
-         <img class="universal-data-loading-image" src="/img/iamone-gray.svg" width="120" alt="iamone" />
+         <img class="universal-data-loading-image" :src="'/icons/iamone-gray.svg' | STATIC_URL" width="120" alt="iamone" />
       </div>
 
       <app-universal-area />
