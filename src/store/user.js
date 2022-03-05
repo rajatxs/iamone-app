@@ -73,7 +73,7 @@ const userModule = {
          let url;
 
          if (state._data.imageHash) {
-            url = `https://ipfs.infura.io:5001/api/v0/cat?arg=${state._data.imageHash}`;
+            url = `https://gateway.ipfs.io/ipfs/${state._data.imageHash}`;
          } else {
             url = `https://avatars.dicebear.com/api/initials/:${state._data.username}.svg?chars=1`;
          }
