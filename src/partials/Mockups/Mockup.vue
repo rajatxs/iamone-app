@@ -133,7 +133,7 @@ export default Vue.extend({
 @keyframes mockup-screen-enter-view {
    from {
       opacity: 0;
-      transform: translateX(68px);
+      transform: translateX(-68px);
    }
    to {
       opacity: 1;

@@ -1,8 +1,8 @@
 <template>
    <div id="app">
       <div v-if="isUserLoaded" class="activity-area xstack h-100 w-100">
-         <app-controlbar v-if="isUserLoaded" />
          <app-mockup v-if="viewPreview && isPageConfigLoaded" />
+         <app-controlbar v-if="isUserLoaded" />
       </div>
 
       <div v-else class="universal-data-loading">
