@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { clearAuthTokens, redirectToLoginPage } from "../utils/common";
-import { REMOTE_SERVER_URL, REMOTE_API_SERVER_URL, STATIC_RESOURCE_URL } from "../config";
+import { BASE_URL, REMOTE_SERVER_URL, REMOTE_API_SERVER_URL, STATIC_RESOURCE_URL } from "../config";
 
 export default Vue.extend({
    filters: {
@@ -41,7 +41,7 @@ export default Vue.extend({
       /** live page url */
       $livePageUrl() {
          return (
-            REMOTE_SERVER_URL + "/" + this.$store.getters["user/user"].username
+            BASE_URL + "/" + this.$store.getters["user/user"].username
          );
       },
 
