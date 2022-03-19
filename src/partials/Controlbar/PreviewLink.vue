@@ -3,7 +3,7 @@
       <a
          :class="previewLinkTextClasses"
          :href="$livePageUrl"
-         target="_blank">{{ $livePageUrl }}</a>
+         target="_blank">iamone.link/{{username}}</a>
 
       <div :class="linkClipboardActionClasses" @click="copyToClipboard">
          <clipboard-icon />
@@ -50,6 +50,9 @@ export default Vue.extend({
             'align-center',
             'cursor-pointer'
          ]
+      },
+      username() {
+         return this.$store.getters['user/user'].username;
       }
    },
    methods: {
