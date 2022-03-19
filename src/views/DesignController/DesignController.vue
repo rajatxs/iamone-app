@@ -64,7 +64,7 @@ export default Vue.extend({
       async loadThemes() {
          this.loading = true;
          try {
-            const response = await this.axios.get('/page/themes');
+            const response = await this.axios.get('https://www.iamone.link/x/themes');
             this.collections = response.data.result;
          } catch (error) {
             this.$toast.error(error.response.data.message);

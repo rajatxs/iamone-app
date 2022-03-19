@@ -1,4 +1,4 @@
-import { api } from "../http";
+import axios from "axios";
 
 /** @type {import('vuex').Module} */
 const socialPlatformsModule = {
@@ -20,7 +20,7 @@ const socialPlatformsModule = {
    actions: {
       /** Fetch list of social platforms */
       async loadAll({ state, commit }) {
-         const response = await api.get("/social-platforms");
+         const response = await axios.get("https://www.iamone.link/x/social-platforms");
 
          if (state._loaded) {
             commit("SET_LOAD_STATE", false);
