@@ -45,7 +45,7 @@ export default new Vuex.Store({
 
    actions: {
       async loadTemplateData({ state, commit }) {
-         let response = await api.get("/page/data");
+         let response = await api.get("/user/profile/data");
          let data = {};
 
          if (state._loaded) {
