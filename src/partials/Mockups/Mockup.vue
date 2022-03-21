@@ -20,7 +20,7 @@
 import Vue from "vue";
 import handlebars from "handlebars";
 import { templateApi } from '../../http';
-import { REMOTE_API_SERVER_URL } from "../../config";
+import { BASE_URL } from "../../config";
 
 export default Vue.extend({
    name: "AppMockup",
@@ -46,7 +46,7 @@ export default Vue.extend({
          return this.$store.getters['pageConfig/pageConfig'].theme;
       },
       themeSourceUrl() {
-         return `${REMOTE_API_SERVER_URL}/page/themes/source/${this.pageConfigId}?nonce=${this.themeStateNonce}`;
+         return `${BASE_URL}/x/style/${this.pageConfigId}?nonce=${this.themeStateNonce}`;
       }
    },
    watch: {
