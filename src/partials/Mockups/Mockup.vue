@@ -93,7 +93,7 @@ export default Vue.extend({
             templateName = 'default';
          }
 
-         endpoint += templateName;
+         endpoint += templateName + '.hbs';
 
          try {
             response = await templateApi.get(endpoint);
