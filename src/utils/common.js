@@ -17,3 +17,14 @@ export async function fetchSiteMetadata(url) {
 
    return response.data
 }
+
+/**
+ * Returns random filename
+ * @param {string} extension 
+ */
+export function generateRandomFilename(extension) {
+   let name = (Math.floor(Math.random() * 10e16)).toString(32);
+   let timestamp = Date.now().toString(32);
+
+   return `${name}_${timestamp}.${extension}`;
+}

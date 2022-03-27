@@ -56,6 +56,9 @@
 
 <script>
 import AvatarSelectorModal from "./AvatarSelectorModal.vue";
+import imagekit from '../../../utils/imagekit';
+import { generateRandomFilename } from '../../../utils/common';
+import { optimizeImage } from '../../../utils/image';
 import XIcon from "../../../assets/vue-icons/x.vue";
 
 export default {
@@ -87,8 +90,17 @@ export default {
          }
 
          this.loading = true;
-         await this.uploadAvatar(newFile);
-         this.loading = false;
+
+         optimizeImage(newFile, 512, 0.7)
+            .then(resizedImage => {
+               this.uploadImage(resizedImage);
+            })
+            .catch(() => {
+               this.$toast.error("Couldn't compress your image");
+            })
+            .finally(() => {
+               this.loading = false;
+            });
       },
    },
 
@@ -118,37 +130,28 @@ export default {
          }
       },
 
-      async uploadAvatar(file) {
-         const formData = new FormData()
-         let response = null
-
-         formData.append('file', file)
+      async uploadImage(file) {
+         let fileName = generateRandomFilename('webp');
 
          if (this.showAvatarSelectorModal) {
             this.selectedFile = file;
             this.showAvatarSelectorModal = false;
          }
 
-         try {
-            response = await this.axios.put('/user/image', formData, {
-               headers: {
-                  'Content-Type': 'multipart/form-data'
+         imagekit
+            .upload({ file, fileName, folder: 'iamone' }, 
+            (error, result) => {
+               if (error) {
+                  this.$toast.error("Couldn't upload image");
+                  return;
                }
-            })
 
-            if (response.status === 200 || response.status === 201) {
                this.$toast.success({
                   text: "Profile image has been uploaded",
                   duration: 1200
                });
-
-               this.$store.commit('user/SET_IMAGE', response.data.result.imageHash);
-            } else {
-               throw new Error();
             }
-         } catch (error) {
-            this.$toast.error("Failed to upload avatar");
-         }
+         );
       },
 
       async _removeAvatar() {
