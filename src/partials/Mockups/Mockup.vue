@@ -19,8 +19,8 @@
 <script>
 import Vue from "vue";
 import handlebars from "handlebars";
-import { templateApi } from '../../http';
-import { BASE_URL } from "../../config";
+import { platformAPI } from '../../http';
+import { PLATFORM_URL } from "../../config";
 
 export default Vue.extend({
    name: "AppMockup",
@@ -46,7 +46,7 @@ export default Vue.extend({
          return this.$store.getters['pageConfig/pageConfig'].theme;
       },
       themeSourceUrl() {
-         return `${BASE_URL}/x/style/${this.pageConfigId}?nonce=${this.themeStateNonce}`;
+         return `${PLATFORM_URL}/x/style/${this.pageConfigId}?nonce=${this.themeStateNonce}`;
       }
    },
    watch: {
@@ -87,16 +87,21 @@ export default Vue.extend({
       /** Load template source */
       async loadTemplateSource() {
          let { templateName } = this;
-         let response = null, endpoint = '/';
+         let response = null, endpoint = '/x/templates';
 
          if (!templateName) {
             templateName = 'default';
          }
 
-         endpoint += templateName + '.hbs';
+         endpoint += '/' + templateName + '.hbs';
 
          try {
-            response = await templateApi.get(endpoint);
+            response = await platformAPI.get(endpoint, {
+               responseType: 'text',
+               headers: {
+                  Accept: "text/html, text/plain"
+               }
+            });
 
             if (typeof response.data === 'string') {
                this.templateSource = response.data;

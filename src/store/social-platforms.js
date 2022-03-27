@@ -1,4 +1,5 @@
 import axios from "axios";
+import { PLATFORM_URL } from '../config';
 
 /** @type {import('vuex').Module} */
 const socialPlatformsModule = {
@@ -20,7 +21,7 @@ const socialPlatformsModule = {
    actions: {
       /** Fetch list of social platforms */
       async loadAll({ state, commit }) {
-         const response = await axios.get("https://www.iamone.link/x/social-platforms.json");
+         const response = await axios.get(`${PLATFORM_URL}/x/social-platforms.json`);
 
          if (state._loaded) {
             commit("SET_LOAD_STATE", false);

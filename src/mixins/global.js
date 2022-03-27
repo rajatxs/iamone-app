@@ -1,6 +1,6 @@
 import Vue from "vue";
 import { clearAuthTokens, redirectToLoginPage } from "../utils/common";
-import { BASE_URL, REMOTE_SERVER_URL, REMOTE_API_SERVER_URL, STATIC_RESOURCE_URL } from "../config";
+import { STATIC_URL, API_URL, PLATFORM_URL } from "../config";
 
 export default Vue.extend({
    filters: {
@@ -9,7 +9,7 @@ export default Vue.extend({
        * @param {string} endpoint
        */
       REMOTE_API_URL(endpoint) {
-         return REMOTE_API_SERVER_URL.concat(endpoint);
+         return API_URL.concat(endpoint);
       },
 
       /**
@@ -17,7 +17,7 @@ export default Vue.extend({
        * @param {string} endpoint
        */
       REMOTE_URL(endpoint) {
-         return REMOTE_SERVER_URL.concat(endpoint);
+         return PLATFORM_URL.concat(endpoint);
       },
 
       /**
@@ -25,7 +25,7 @@ export default Vue.extend({
        * @param {string} path 
        */
       STATIC_URL(path) {
-         return STATIC_RESOURCE_URL + '/' + path;
+         return STATIC_URL + path;
       },
 
       /**
@@ -33,7 +33,7 @@ export default Vue.extend({
        * @param {string} key
        */
       SOCIAL_ICON(key) {
-         return `${STATIC_RESOURCE_URL}/images/social-icons/${key}.svg`;
+         return `${STATIC_URL}/images/social-icons/${key}.svg`;
       },
    },
 
@@ -41,7 +41,7 @@ export default Vue.extend({
       /** live page url */
       $livePageUrl() {
          return (
-            BASE_URL + "/" + this.$store.getters["user/user"].username
+            PLATFORM_URL + "/" + this.$store.getters["user/user"].username
          );
       },
 
@@ -58,7 +58,7 @@ export default Vue.extend({
        * @param {string} path
        */
       staticUrl(path) {
-         return STATIC_RESOURCE_URL + '/' + path;
+         return STATIC_URL + path;
       },
 
       /**

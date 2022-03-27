@@ -1,6 +1,6 @@
 <template>
    <div :class="logoClasses" :style="logoStyle">
-      <img src="https://static.iamone.link/icons/iamone.svg" class="app-logo-image" />
+      <img :src="'/icons/iamone.svg' | STATIC_URL" class="app-logo-image" />
    </div>
 </template>
 

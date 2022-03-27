@@ -7,7 +7,7 @@ import links from "./links";
 import user from "./user";
 import socialPlatforms from "./social-platforms";
 import pageConfig from "./page-config";
-import { REMOTE_SERVER_URL } from "../config";
+import { PLATFORM_URL } from "../config";
 import { clearAuthTokens, redirectToLoginPage } from "../utils/common";
 
 Vue.use(Vuex);
@@ -30,7 +30,7 @@ export default new Vuex.Store({
          const links = rootGetters["links/links"];
          const page = rootGetters["pageConfig/pageConfig"]
          const options = {
-            host: REMOTE_SERVER_URL,
+            host: PLATFORM_URL,
          };
 
          return {

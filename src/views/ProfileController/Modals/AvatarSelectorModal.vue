@@ -25,13 +25,13 @@
 
 <script>
 import Vue from "vue";
-import { STATIC_RESOURCE_URL } from "../../../config";
+import { STATIC_URL } from "../../../config";
 
 export default Vue.extend({
    name: "SocialPlatformSelectorModal",
    filters: {
       TO_AVATAR_SOURCE_URL(avatarName) {
-         return STATIC_RESOURCE_URL + '/images/avatars/' + avatarName + '.svg';
+         return STATIC_URL + '/images/avatars/' + avatarName + '.svg';
       }
    },
    data() {
@@ -49,7 +49,7 @@ export default Vue.extend({
          let response, avatars = [];
 
          try {
-            response = await fetch(STATIC_RESOURCE_URL + '/avatars.json', { 
+            response = await fetch(STATIC_URL + '/avatars.json', { 
                method: 'GET',
                headers: {
                   'Accept': 'application/json'
@@ -63,7 +63,7 @@ export default Vue.extend({
       },
 
       async handleAvatarSelectionAction(avatarName) {
-         const url = STATIC_RESOURCE_URL + '/images/avatars/' + avatarName + '.svg';
+         const url = STATIC_URL + '/images/avatars/' + avatarName + '.svg';
          let response, file, code;
 
          try {

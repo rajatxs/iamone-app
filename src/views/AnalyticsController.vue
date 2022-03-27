@@ -1,7 +1,7 @@
 <template>
    <app-controller-view name="analytics">
       <app-feature-preview
-         icon="https://static.iamone.link/icons/iamone-analytics.svg" 
+         :icon="'/icons/iamone-analytics.svg' | STATIC_URL" 
          title="Analytics"
          desc="We are working on this feature" />
    </app-controller-view>

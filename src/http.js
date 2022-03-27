@@ -1,10 +1,10 @@
 import axios from "axios";
 import { clearAuthTokens, redirectToLoginPage } from "./utils/common";
-import { REMOTE_API_SERVER_URL, BASE_URL } from "./config";
+import { API_URL, PLATFORM_URL } from "./config";
 import locals from "./locals";
 
 export const api = axios.create({
-   baseURL: REMOTE_API_SERVER_URL,
+   baseURL: API_URL,
    responseType: "json",
    headers: {
       Accept: "application/json",
@@ -30,10 +30,6 @@ export const api = axios.create({
    },
 });
 
-export const templateApi = axios.create({
-   baseURL: BASE_URL + "/x/templates",
-   responseType: "text",
-   headers: {
-      Accept: "text/html, text/plain",
-   },
+export const platformAPI = axios.create({
+   baseURL: PLATFORM_URL
 });
