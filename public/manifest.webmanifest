@@ -9,12 +9,12 @@
    "theme_color": "#FFFFFF",
    "icons": [
       {
-         "src": "https://static.iamone.link/icons/android-chrome-192x192.png",
+         "src": "https://rajatxs.github.io/iamone-static/icons/android-chrome-192x192.png",
          "type": "image/png",
          "sizes": "192x192"
       },
       {
-         "src": "https://static.iamone.link/icons/android-chrome-512x512.png",
+         "src": "https://rajatxs.github.io/iamone-static/icons/android-chrome-512x512.png",
          "type": "image/png",
          "sizes": "512x512"
       }

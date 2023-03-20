@@ -1,6 +1,6 @@
 <template>
    <div :class="logoClasses" :style="logoStyle">
-      <img src="https://static.iamone.link/icons/iamone.svg" class="app-logo-image" />
+      <img src="https://rajatxs.github.io/iamone-static/icons/iamone.svg" class="app-logo-image" />
    </div>
 </template>
 

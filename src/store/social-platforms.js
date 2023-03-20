@@ -20,7 +20,7 @@ const socialPlatformsModule = {
    actions: {
       /** Fetch list of social platforms */
       async loadAll({ state, commit }) {
-         const response = await axios.get("https://www.iamone.link/x/social-platforms.json");
+         const response = await axios.get("https://iamone-render-functions.vercel.app/x/social-platforms.json");
 
          if (state._loaded) {
             commit("SET_LOAD_STATE", false);
