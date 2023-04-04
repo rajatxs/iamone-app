@@ -1,6 +1,5 @@
-export const IS_PROD = process.env.NODE_ENV === "production";
-export const REMOTE_SERVER_URL = IS_PROD? "https://iamone-api.fly.dev": "http://localhost:5000";
+export const REMOTE_SERVER_URL = process.env.VUE_APP_REMOTE_SERVER_URL;
 export const REMOTE_API_SERVER_URL = REMOTE_SERVER_URL;
-export const REMOTE_THEME_SOURCE_URL = REMOTE_SERVER_URL + "https://iamone-render-functions.vercel.app/x/themes";
-export const STATIC_RESOURCE_URL = "https://rajatxs.github.io/iamone-static";
-export const BASE_URL = "https://iamone-render-functions.vercel.app";
+export const REMOTE_THEME_SOURCE_URL = process.env.VUE_APP_REMOTE_THEME_SOURCE_URL;
+export const STATIC_RESOURCE_URL = process.env.VUE_APP_STATIC_RESOURCE_URL;
+export const BASE_URL = process.env.VUE_APP_BASE_URL;
